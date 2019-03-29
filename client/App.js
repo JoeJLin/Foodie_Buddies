@@ -1,56 +1,60 @@
 import React from "react";
-import { createStackNavigator, createAppContainer } from "react-navigation";
+import {
+  createAppContainer,
+  createBottomTabNavigator,
+  createStackNavigator,
+  createSwitchNavigator
+} from "react-navigation";
 import { StyleSheet, Text, View } from "react-native";
 import axios from "axios";
 import { API_PATH } from "./config/keys";
 
 import HomeScreen from "./screens/HomeScreen";
 import ProfileScreen from "./screens/ProfileScreen";
+import WelcomeScreen from "./screens/WelcomeScreen";
+import ChatScreen from "./screens/Chat";
+import SettingScreen from "./screens/Setting";
+import FeedScreen from "./screens/Feed";
 
-const MainNavigator = createStackNavigator({
-  Home: { screen: HomeScreen },
-  Profile: { screen: ProfileScreen }
+/**
+ *  AppSwitchNavigator
+ *    -Welcome Screen
+ *      -Login Button
+ *      -SignUp Button
+ *    -AppStackNavigator
+ *      -AppTabNavigator
+ *        -Feed
+ *        -Chat
+ *        -Profile?????
+ *        -Setting
+ */
+
+const AppTabNavigator = createBottomTabNavigator(
+  {
+    Feed: { screen: FeedScreen },
+    Chat: { screen: ChatScreen },
+    // Profile: { screen: ProfileScreen },
+    Setting: { screen: SettingScreen }
+  },
+  {
+    navigationOptions: ({ navigation }) => {
+      const { routeName } = navigation.state.routes[navigation.state.index];
+      return {
+        headerTitle: routeName
+      };
+    }
+  }
+);
+
+const AppStackNavigator = createStackNavigator({
+  Home: { screen: AppTabNavigator }
 });
 
-const App = createAppContainer(MainNavigator);
+const AppSwitchNavigator = createSwitchNavigator({
+  Welcome: { screen: WelcomeScreen },
+  Home: { screen: AppStackNavigator }
+});
 
-export default App;
+const AppContainer = createAppContainer(AppSwitchNavigator);
 
-// class App extends React.Component {
-//   constructor(props) {
-//     super(props)
-//     this.state ={
-//       name: ""
-//     }
-//   }
-//   componentWillMount() {
-//     axios
-//       .get(`${API_PATH}/api`)
-//       .then(response => {
-//         this.setState({ name: response.data.name });
-//       })
-//       .catch(err => {
-//         console.log(err);
-//       });
-//   }
-
-//   render() {
-//     return (
-//       <View style={styles.container}>
-//         <Text>Open up App.js to start working on your app!</Text>
-//         <Text>{this.state.name}</Text>
-//       </View>
-//     );
-//   }
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-// });
-
-// export default App;
+export default AppContainer;

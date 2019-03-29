@@ -1,18 +1,18 @@
 import React, { Component } from "react";
-import { Button } from "react-native";
+import { Button, View, Text } from "react-native";
 import axios from "axios";
 import { API_PATH } from "../config/keys";
 
 class ProfileScreen extends React.Component {
-  static navigationOptions = {
-    title: "Welcome"
-  };
-    constructor(props) {
-      super(props)
-      this.state ={
-        name: ""
-      }
-    }
+  // static navigationOptions = {
+  //   title: "Welcome"
+  // };
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: ""
+    };
+  }
   componentWillMount() {
     axios
       .get(`${API_PATH}/api`)
@@ -25,12 +25,11 @@ class ProfileScreen extends React.Component {
   }
 
   render() {
-    const { navigate } = this.props.navigation;
+    // const { navigate } = this.props.navigation;
     return (
-      <Button
-        title={this.state.name}
-        onPress={() => navigate("Profile", { name: "Jane" })}
-      />
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text>Profile</Text>
+      </View>
     );
   }
 }
