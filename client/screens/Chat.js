@@ -5,7 +5,7 @@ class Chat extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text>Chat</Text>
+        <Text>Chat1</Text>
       </View>
     );
   }
