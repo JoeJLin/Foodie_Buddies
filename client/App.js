@@ -12,9 +12,10 @@ import { API_PATH } from "./config/keys";
 import HomeScreen from "./screens/HomeScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import WelcomeScreen from "./screens/WelcomeScreen";
-import ChatScreen from "./screens/Chat";
-import SettingScreen from "./screens/Setting";
-import FeedScreen from "./screens/Feed";
+import ChatScreen from "./screens/ChatScreen";
+import SettingScreen from "./screens/SettingScreen";
+import FeedScreen from "./screens/FeedScreen";
+import AuthScreen from "./screens/AuthScreen";
 
 /**
  *  AppSwitchNavigator
@@ -50,10 +51,16 @@ const AppStackNavigator = createStackNavigator({
   Home: { screen: AppTabNavigator }
 });
 
-const AppSwitchNavigator = createSwitchNavigator({
-  Welcome: { screen: WelcomeScreen },
-  Home: { screen: AppStackNavigator }
-});
+const AppSwitchNavigator = createSwitchNavigator(
+  {
+    Welcome: { screen: WelcomeScreen },
+    Home: { screen: AppStackNavigator },
+    Auth: { screen: AuthScreen }
+  },
+  {
+    initialRouteName: "Welcome"
+  }
+);
 
 const AppContainer = createAppContainer(AppSwitchNavigator);
 
