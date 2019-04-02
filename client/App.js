@@ -16,6 +16,7 @@ import ChatScreen from "./screens/ChatScreen";
 import SettingScreen from "./screens/SettingScreen";
 import FeedScreen from "./screens/FeedScreen";
 import AuthScreen from "./screens/AuthScreen";
+import FormScreen from "./screens/FormScreen";
 
 /**
  *  AppSwitchNavigator
@@ -48,7 +49,8 @@ const AppTabNavigator = createBottomTabNavigator(
 );
 
 const AppStackNavigator = createStackNavigator({
-  Home: { screen: AppTabNavigator }
+  Home: { screen: AppTabNavigator },
+  Form : {screen: FormScreen},
 });
 
 const AppSwitchNavigator = createSwitchNavigator(
