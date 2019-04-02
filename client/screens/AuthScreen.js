@@ -8,7 +8,8 @@ import {
   Image
 } from "react-native";
 import { Google } from "expo";
-import { GOOGLE_IOS_CLIENT_KEY } from "../config/keys";
+import { GOOGLE_IOS_CLIENT_KEY, API_PATH } from "../config/keys";
+import axios from "axios";
 
 export default class AuthScreen extends React.Component {
   constructor(props) {
@@ -35,6 +36,7 @@ export default class AuthScreen extends React.Component {
         });
         await AsyncStorage.setItem("userToken", result.idToken);
         console.log(result.idToken);
+        this.registerUser(result.user);
         this.props.navigation.navigate("Home");
       } else {
         console.log("cancelled");
@@ -42,6 +44,23 @@ export default class AuthScreen extends React.Component {
     } catch (e) {
       console.log("error", e);
     }
+  };
+
+  registerUser = async user => {
+    axios
+      .post(API_PATH + "/user", {
+        email: user.email,
+        familyName: user.familyName,
+        givenName: user.givenName,
+        photoUrl: user.photoUrl,
+        googleId: user.id
+      })
+      .then(response => {
+        console.log(response);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   render() {
