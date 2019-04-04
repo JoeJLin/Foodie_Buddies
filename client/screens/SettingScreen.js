@@ -5,18 +5,18 @@ class Setting extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userToken: ""
+      userId: ""
     };
   }
 
   async componentDidMount() {
-    const userToken = await AsyncStorage.getItem("userToken");
-    this.setState({ userToken });
-    console.log("userToken", userToken);
+    const userId = await AsyncStorage.getItem("userId");
+    this.setState({ userId });
+    console.log("userId", userId);
   }
 
   signOut = async () => {
-    await AsyncStorage.removeItem("userToken");
+    await AsyncStorage.removeItem("userId");
     console.log("log out");
     this.props.navigation.navigate("Auth");
   };
@@ -24,7 +24,7 @@ class Setting extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text>{this.state.userToken}</Text>
+        <Text>{this.state.userId}</Text>
         <Button onPress={() => this.signOut()} title="Sign Out" />
       </View>
     );

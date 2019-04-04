@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/user");
+const utils = require("../utils");
 
 //create new user
 router.post("/", (req, res) => {
@@ -9,27 +10,23 @@ router.post("/", (req, res) => {
   let familyName = req.body.familyName;
   let givenName = req.body.givenName;
   let photoUrl = req.body.photoUrl;
-  let googleId = req.body.googleId;
+  let userId = req.body.userId;
 
-  User.findOne({ googleId }).then(result => {
-    if (!result) {
-      const user = new User({
-        email,
-        familyName,
-        givenName,
-        photoUrl,
-        googleId
-      });
-      user.save(function(err, user) {
-        if (err) console.log(err);
-        // res.send({ user });
-        console.log("save user");
-        return;
-      });
-      // res.send(result);
-    }
-    console.log("already in our database");
-  });
+  utils
+    .checkAndCreateUser(userId, email, familyName, givenName, photoUrl)
+    .then(result => {
+      if (result) {
+        res.send(result);
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      res.send(err);
+    });
+});
+
+router.get("/getUser", (req, res) => {
+  console.log(req.query.userId);
 });
 
 module.exports = router;

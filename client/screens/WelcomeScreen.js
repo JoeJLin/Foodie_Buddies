@@ -15,9 +15,9 @@ class WelcomeScreen extends Component {
   }
 
   checkUserToken = async () => {
-    const userToken = await AsyncStorage.getItem("UserToken");
+    const userId = await AsyncStorage.getItem("userId");
 
-    this.props.navigation.navigate(userToken ? "Home" : "Auth");
+    this.props.navigation.navigate(userId ? "Home" : "Auth");
   };
 
   render() {

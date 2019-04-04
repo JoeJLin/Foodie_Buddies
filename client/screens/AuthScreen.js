@@ -14,11 +14,7 @@ import axios from "axios";
 export default class AuthScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      signedIn: false,
-      name: "",
-      photoUrl: ""
-    };
+    this.state = {};
   }
   signIn = async () => {
     try {
@@ -29,13 +25,8 @@ export default class AuthScreen extends React.Component {
       });
       console.log(result);
       if (result.type === "success") {
-        this.setState({
-          signedIn: true,
-          name: result.user.name,
-          photoUrl: result.user.photoUrl
-        });
-        await AsyncStorage.setItem("userToken", result.idToken);
-        console.log(result.idToken);
+        await AsyncStorage.setItem("userId", result.user.id);
+        console.log(result.user.id);
         this.registerUser(result.user);
         this.props.navigation.navigate("Home");
       } else {
@@ -53,13 +44,13 @@ export default class AuthScreen extends React.Component {
         familyName: user.familyName,
         givenName: user.givenName,
         photoUrl: user.photoUrl,
-        googleId: user.id
+        userId: user.id
       })
       .then(response => {
-        console.log(response);
+        console.log(JSON.stringify(response));
       })
       .catch(err => {
-        console.log(err);
+        console.log(JSON.stringify(err));
       });
   };
 
@@ -71,24 +62,6 @@ export default class AuthScreen extends React.Component {
     );
   }
 }
-
-const LoginPage = props => {
-  return (
-    <View>
-      <Text style={styles.header}>Sign In With Google</Text>
-      <Button title="Sign in with Google" onPress={() => props.signIn()} />
-    </View>
-  );
-};
-
-const LoggedInPage = props => {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Welcome:{props.name}</Text>
-      <Image style={styles.image} source={{ uri: props.photoUrl }} />
-    </View>
-  );
-};
 
 const styles = StyleSheet.create({
   container: {
