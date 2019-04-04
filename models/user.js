@@ -19,7 +19,7 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  googleId: {
+  userId: {
     type: String,
     required: true,
     unique: true
