@@ -13,11 +13,13 @@ class Setting extends React.Component {
     const userToken = await AsyncStorage.getItem("userToken");
     this.setState({ userToken });
     console.log("userToken", userToken);
+    console.log("asdfasfknl")
   }
 
   signOut = async () => {
     await AsyncStorage.removeItem("userToken");
     console.log("log out");
+    console.log("aosnfoinaoisnfoiasndonafsnoini")
     this.props.navigation.navigate("Auth");
   };
 
