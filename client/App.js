@@ -17,6 +17,7 @@ import SettingScreen from "./screens/SettingScreen";
 import FeedScreen from "./screens/FeedScreen";
 import AuthScreen from "./screens/AuthScreen";
 import FormScreen from "./screens/FormScreen";
+import Calender from "./screens/CalenderScreen";
 
 /**
  *  AppSwitchNavigator
@@ -36,7 +37,8 @@ const AppTabNavigator = createBottomTabNavigator(
     Feed: { screen: FeedScreen },
     Chat: { screen: ChatScreen },
     // Profile: { screen: ProfileScreen },
-    Setting: { screen: SettingScreen }
+    Setting: { screen: SettingScreen },
+    calender: {screen: Calender}
   },
   {
     navigationOptions: ({ navigation }) => {

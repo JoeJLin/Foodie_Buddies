@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { StyleSheet,Platform,Button, View, Text, Picker, Modal,TouchableHighlight} from "react-native";
+import Calendar from 'react-native-calendar-datepicker';
+import Moment from 'moment';
 
 class FormScreen extends React.Component {
     constructor(){
@@ -76,13 +78,13 @@ class FormScreen extends React.Component {
                   <Text style={{ color : '#999'}}> Cancel</Text>
               </TouchableHighlight>
 
-
             
             </View>
 
 
 
         </Modal>
+
 
       </View>
     );
