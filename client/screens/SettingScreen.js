@@ -18,6 +18,7 @@ class Setting extends React.Component {
   signOut = async () => {
     await AsyncStorage.removeItem("userId");
     console.log("log out");
+    console.log("aosnfoinaoisnfoiasndonafsnoini")
     this.props.navigation.navigate("Auth");
   };
 
