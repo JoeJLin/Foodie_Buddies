@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
-  View
+  View,
+  Button
 } from 'react-native';
 import CalendarPicker from 'react-native-calendar-picker';
+
 
 class CalenderScreen extends Component {
   constructor(props) {
@@ -18,7 +20,8 @@ class CalenderScreen extends Component {
   onDateChange(date) {
     this.setState({
       selectedStartDate: date,
-    });
+    })
+    
   }
   render() {
     const { selectedStartDate } = this.state;
@@ -32,6 +35,10 @@ class CalenderScreen extends Component {
         <View>
           <Text>SELECTED DATE:{ startDate }</Text>
         </View>
+            <Button onPress={()=>this.props.navigation.navigate('Form',{date:startDate})}
+            title ='time'>
+                <Text>selected</Text>
+            </Button>
       </View>
     );
   }
@@ -46,3 +53,4 @@ const styles = StyleSheet.create({
 });
 
 export default CalenderScreen;
+

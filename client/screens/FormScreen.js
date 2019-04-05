@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View,StyleSheet,Image,Modal,TouchableHighlight} from "react-native";
+import { DatePickerIOS,ScrollView, View,StyleSheet,Image,Modal,TouchableHighlight} from "react-native";
 import {
   Container,
   Header,
@@ -15,75 +15,86 @@ import {
   Body,
   Form
 } from "native-base";
+import RNPickerSelect from 'react-native-picker-select';
 
-
+const People = [
+  {
+    label: '1 person',
+    value: '1 person',
+  },
+  {
+    label: '2 people',
+    value: '2 people',
+  },
+  {
+    label: '3 people',
+    value: '3 people',
+  },
+  {
+    label: '4 people',
+    value: '4 people',
+  },
+  {
+    label: '5 people',
+    value: '5 people',
+  },
+  {
+    label: '6 people',
+    value: '6 people',
+  },
+  {
+    label: '7 people',
+    value: '7 people',
+  },
+  {
+    label: '8 people',
+    value: '8 people',
+  },
+  {
+    label: '9 people',
+    value: '9 people',
+  },
+  {
+    label: '10 people',
+    value: '10 people',
+  },
+];
+const Roomtype =[{
+  label: 'Public',
+  value: 'Public'
+},
+  {label: 'Private',
+  value: 'Private'
+}
+]
 class FormScreen extends Component {
   constructor(){
     super();
     this.state={
       RoomValue : 'Select Roomsize',
       PrivateOrPublic: 'Select Room Type',
-      RoomsizeDisplayed:false,
-      TypeDisplayed:false
+      chosenDate: new Date()
     }
+    this.setDate = this.setDate.bind(this);
   };
-  setRoomValue(newValue){
-    this.setState({
-      RoomValue:newValue
-    });
-    console.log(this.state.RoomValue)
-    this.toggleSize();
+ 
+  setDate(newDate) {
+    this.setState({chosenDate: newDate});
   }
-
-  setTypeValue(newValue){
-    this.setState({
-      PrivateOrPublic:newValue
-
-    },
-    console.log(this.state.PrivateOrPublic)
-    );
-
-    this.toggleType();
-  } 
-toggleSize(){
-  this.setState({
-    RoomsizeDisplayed:!this.state.RoomsizeDisplayed
-  })
-}
-
-toggleType(){
-  this.setState({
-    TypeDisplayed:!this.state.TypeDisplayed
-  })
-}
   render() {
     const {navigate} = this.props.navigation; //Defind for Navagation
 
-    const Roomsize = [{
-      title: "One Person",
-      Value: '1 person'
-  },
-  {
-    title: "Two People",
-    Value: '2 people'
-  },
-  {
-    title: "Three Peple",
-    Value: '3 people'
-},
-{
-  title: "Four People",
-  Value: '4 people'
-}
-]
-const Roomtype =[{
-    title: 'Public',
-    value: 'Public'
-},
-    {title: 'Private',
-    value: 'Private'
-  }
-]
+    const placeholder = {
+      label: 'Select',
+      value: null,
+      color: '#151719',
+    };
+    const typleHolder = {
+      label: 'Select',
+      value: null,
+      color: '#151719',
+    };
+
     return (
       <Container style={styles.container}>
         <Image style={{
@@ -99,24 +110,34 @@ const Roomtype =[{
             <CardItem header bordered>
               <Text>Make a Reservaton</Text>
             </CardItem>
-            <TouchableHighlight onPress={() =>this.toggleSize()}>
+
             <CardItem>
               <Left>
                 <Icon
                   active
                   name="ios-people"
-                  style={{ color: "#DD5044" }}
+                  style={{ color: "black" }}
                 /> 
-              <Text> {this.state.RoomValue}</Text>
-                
+               <ScrollView>
+                <RNPickerSelect
+                  placeholder={typleHolder}
+                  items={People}
+                  onValueChange={value => {
+                    this.setState({
+                      RoomValue: value,
+                    });
+                  }}
+                  style={pickerSelectStyles}
+                  />
+                </ScrollView>
               </Left>
               <Right>
                 <Icon name="arrow-forward" />
               </Right>
-            </CardItem>
-            </TouchableHighlight>
-
-            <TouchableHighlight onPress={() => navigate('Calender', {name: 'Calender'})}>
+            </CardItem>     
+            <TouchableHighlight onPress={() => navigate('Calender', {name: 'Calender'})
+            }
+            >
             <CardItem>
               <Left>
                 <Icon
@@ -141,7 +162,7 @@ const Roomtype =[{
                 <Icon name="arrow-forward" />
               </Right>
             </CardItem>
-            <TouchableHighlight onPress={() =>this.toggleType()}>
+           
             <CardItem>
               <Left>
                 <Icon
@@ -149,67 +170,24 @@ const Roomtype =[{
                   name="ios-lock"
                   style={{ color: "black" }}
                 /> 
-              <Text> {this.state.PrivateOrPublic}</Text>
+               <ScrollView>
+                <RNPickerSelect
+                  placeholder={typleHolder}
+                  items={Roomtype}
+                  onValueChange={value => {
+                    this.setState({
+                      PrivateOrPublic: value,
+                    });
+                  }}
+                  style={pickerSelectStyles}
+                  />
+                </ScrollView>
               </Left>
               <Right>
                 <Icon name="arrow-forward" />
               </Right>
-            </CardItem>
-            </TouchableHighlight>
+            </CardItem>       
           </Card>
-          
-          <Modal visible ={this.state.RoomsizeDisplayed}  animatedType ={"slide"} transparent ={true} >
-                  <View style ={{
-                  margin:20, 
-                  padding:20,
-                  backgroundColor:'#efefef',
-                  bottom:0,
-                  left:0,
-                  right:0,
-                  alignItems:'center',
-                  position:'absolute'}}>
-          
-                  
-                <Text style ={{fontWeight:'bold', marginBottom:10}}>Value</Text>
-                {Roomsize.map((value,index)=>{
-                  return  <TouchableHighlight key ={index} onPress={()=>this.setRoomValue(value.Value)}style={{paddingTop:4, paddingBottom:4}}>
-                  <Text>{value.title}</Text>
-                    </TouchableHighlight>
-                })}
-                  
-                    <TouchableHighlight onPress={() =>this.toggleSize()} style={{paddingTop:4, paddingBottom:4}}>
-                        <Text style={{ color : '#999'}}> Cancel</Text>
-                    </TouchableHighlight>
-
-                  
-                  </View>
-              </Modal>
-          <Modal visible ={this.state.TypeDisplayed}  animatedType ={"slide"} transparent ={true} >
-                  <View style ={{
-                  margin:20, 
-                  padding:20,
-                  backgroundColor:'#efefef',
-                  bottom:0,
-                  left:0,
-                  right:0,
-                  alignItems:'center',
-                  position:'absolute'}}>
-          
-                  
-                <Text style ={{fontWeight:'bold', marginBottom:10}}>Room Type</Text>
-                {Roomtype.map((value,index)=>{
-                  return  <TouchableHighlight key ={index} onPress={()=>this.setTypeValue(value.value)}style={{paddingTop:4, paddingBottom:4}}>
-                  <Text>{value.title}</Text>
-                    </TouchableHighlight>
-                })}
-                  
-                    <TouchableHighlight onPress={() =>this.toggleType()} style={{paddingTop:4, paddingBottom:4}}>
-                        <Text style={{ color : '#999'}}> Cancel</Text>
-                    </TouchableHighlight>
-
-                  
-                  </View>
-              </Modal>
               <Button info style={{alignSelf:'center'}}>
                 <Text>
                   Sumbit
@@ -224,11 +202,24 @@ const Roomtype =[{
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#FFF"
+    flex:1,
+    backgroundColor: "#FFF",
+    justifyContent: "center", 
+    //alignItems: "center",
   },
   mb: {
     marginBottom: 15
   }
+});
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    left:5,
+    fontSize: 16,
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+    color: 'black',
+    paddingRight: 30, // to ensure the text is never behind the icon
+  },
 });
 
 export default FormScreen;
