@@ -73,7 +73,6 @@ class FormScreen extends Component {
     this.state={
       RoomValue : 'Select Roomsize',
       PrivateOrPublic: 'Select Room Type',
-      chosenDate: new Date()
     }
     this.setDate = this.setDate.bind(this);
   };
@@ -83,7 +82,8 @@ class FormScreen extends Component {
   }
   render() {
     const {navigate} = this.props.navigation; //Defind for Navagation
-
+    const { navigation } = this.props;
+    const time = navigation.getParam('time', 'Select Time');
     const placeholder = {
       label: 'Select',
       value: null,
@@ -145,7 +145,7 @@ class FormScreen extends Component {
                   name="md-time"
                   style={{ color: "#3B579D" }}
                 />
-                <Text>SelecTime</Text>
+                <Text>{JSON.stringify(time)}</Text>
               </Left>
               <Right>
                 <Icon name="arrow-forward" />
