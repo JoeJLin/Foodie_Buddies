@@ -1,37 +1,36 @@
-import React, { Component } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
-import CalendarPicker from 'react-native-calendar-picker';
+import React, {Component} from 'react';
+import {Button,DatePickerIOS, View, StyleSheet} from 'react-native';
 
-class CalenderScreen extends Component {
+ class CalenderScreen extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      selectedStartDate: null,
-    };
-    this.onDateChange = this.onDateChange.bind(this);
+    this.state = {chosenDate: new Date()};
+
+    this.setDate = this.setDate.bind(this);
   }
 
-  onDateChange(date) {
-    this.setState({
-      selectedStartDate: date,
-    });
+  setDate(newDate) {
+    this.setState({chosenDate: newDate});
+    //console.log(this.state.chosenDate);
   }
+
   render() {
-    const { selectedStartDate } = this.state;
-    const startDate = selectedStartDate ? selectedStartDate.toString() : '';
     return (
       <View style={styles.container}>
-        <CalendarPicker
-          onDateChange={this.onDateChange}
+        <DatePickerIOS
+          date={this.state.chosenDate}
+          onDateChange={this.setDate}
         />
 
-        <View>
-          <Text>SELECTED DATE:{ startDate }</Text>
-        </View>
+<Button
+          title="Confirm"
+          onPress={() => {
+            /* 1. Navigate to the Details route with params */
+            this.props.navigation.navigate('Form', {
+              time: this.state.chosenDate,
+            });
+          }}
+        />
       </View>
     );
   }
@@ -40,8 +39,7 @@ class CalenderScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
-    marginTop: 100,
+    justifyContent: 'center',
   },
 });
 
