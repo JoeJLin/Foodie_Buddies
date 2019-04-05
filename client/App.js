@@ -18,6 +18,7 @@ import FeedScreen from "./screens/FeedScreen";
 import AuthScreen from "./screens/AuthScreen";
 import FormScreen from "./screens/FormScreen";
 import Calender from "./screens/CalenderScreen";
+import CalenderScreen from "./screens/CalenderScreen";
 
 /**
  *  AppSwitchNavigator
@@ -53,6 +54,7 @@ const AppTabNavigator = createBottomTabNavigator(
 const AppStackNavigator = createStackNavigator({
   Home: { screen: AppTabNavigator },
   Form : {screen: FormScreen},
+  Calender: {screen : CalenderScreen}
 });
 
 const AppSwitchNavigator = createSwitchNavigator(
