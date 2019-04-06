@@ -1,46 +1,34 @@
 import React, { Component } from "react";
-import { Button, DatePickerIOS, View, StyleSheet } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
+import DateTimePicker from "react-native-modal-datetime-picker";
 
-class CalenderScreen extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { chosenDate: new Date() };
+export default class DateTimePickerTester extends Component {
+  state = {
+    isDateTimePickerVisible: false
+  };
 
-    this.setDate = this.setDate.bind(this);
-  }
+  _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
 
-  setDate(newDate) {
-    this.setState({ chosenDate: newDate });
-    //console.log(this.state.chosenDate);
-  }
+  _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
+
+  _handleDatePicked = date => {
+    console.log("A date has been picked: ", date);
+    this._hideDateTimePicker();
+  };
 
   render() {
     return (
-      <View style={styles.container}>
-        <DatePickerIOS
-          date={this.state.chosenDate}
-          onDateChange={this.setDate}
-        />
-
-        <Button
-          title="Confirm"
-          onPress={() => {
-            /* 1. Navigate to the Details route with params */
-            this.props.navigation.navigate("Form", {
-              time: this.state.chosenDate
-            });
-          }}
+      <View style={{ flex: 1 }}>
+        <TouchableOpacity onPress={this._showDateTimePicker}>
+          <Text>Show DatePicker</Text>
+        </TouchableOpacity>
+        <DateTimePicker
+          isVisible={this.state.isDateTimePickerVisible}
+          onConfirm={this._handleDatePicked}
+          onCancel={this._hideDateTimePicker}
+          mode={"time"}
         />
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center"
-  }
-});
-
-export default CalenderScreen;

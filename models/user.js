@@ -29,7 +29,13 @@ const UserSchema = mongoose.Schema({
       type: Schema.Types.ObjectId,
       ref: "User"
     }
-  ]
+  ],
+  roomList: {
+    roomId: {
+      type: Schema.Types.ObjectId,
+      ref: "Room"
+    }
+  }
 });
 
 const User = mongoose.model("User", UserSchema);
