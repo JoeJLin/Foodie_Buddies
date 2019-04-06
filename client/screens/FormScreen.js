@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { DatePickerIOS,ScrollView, View,StyleSheet,Image,Modal,TouchableHighlight} from "react-native";
+import { DatePickerIOS,ScrollView, View,StyleSheet,Image,Modal,TouchableHighlight, TouchableOpacity} from "react-native";
 import {
   Container,
   Header,
@@ -16,6 +16,7 @@ import {
   Form
 } from "native-base";
 import RNPickerSelect from 'react-native-picker-select';
+import DateTimePicker from 'react-native-modal-datetime-picker';
 
 const People = [
   {
@@ -73,17 +74,42 @@ class FormScreen extends Component {
     this.state={
       RoomValue : 'Select Roomsize',
       PrivateOrPublic: 'Select Room Type',
+      isDateTimePickerVisible: false,
+      isTimePickerVisible: false,
+      dateValue: 'Select Date',
+      TimeValue: 'Select Time'
     }
-    this.setDate = this.setDate.bind(this);
+  };
+
+  _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
+
+  _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
+
+  _handleDatePicked = (date) => {
+    date = new Date().toDateString();
+
+    console.log('A date has been picked: ', date);
+    this._hideDateTimePicker();
+    this.setState({dateValue:date})
+  };
+
+  _showTimePicker = () => this.setState({ isTimePickerVisible: true });
+
+  _hideTimePicker = () => this.setState({ isTimePickerVisible: false });
+
+  _handleTimePicked = (date) => {
+    date = new Date().toTimeString();
+
+    console.log('A date has been picked: ', date);
+    this._hideTimePicker();
+    this.setState({TimeValue:date})
   };
  
-  setDate(newDate) {
-    this.setState({chosenDate: newDate});
-  }
+
   render() {
     const {navigate} = this.props.navigation; //Defind for Navagation
     const { navigation } = this.props;
-    const time = navigation.getParam('time', 'Select Time');
+    //const time = navigation.getParam('time', 'Select Time');
     const placeholder = {
       label: 'Select',
       value: null,
@@ -135,24 +161,50 @@ class FormScreen extends Component {
                 <Icon name="arrow-forward" />
               </Right>
             </CardItem>     
-            <TouchableHighlight onPress={() => navigate('Calender', {name: 'Calender'})
-            }
-            >
+            
             <CardItem>
               <Left>
                 <Icon
                   active
-                  name="md-time"
+                  name="ios-calendar"
                   style={{ color: "#3B579D" }}
                 />
-                <Text>{JSON.stringify(time)}</Text>
+                 <TouchableOpacity onPress={this._showDateTimePicker}>
+                <Text>{this.state.dateValue}</Text>
+                </TouchableOpacity>
+                <DateTimePicker
+          isVisible={this.state.isDateTimePickerVisible}
+          onConfirm={this._handleDatePicked}
+          onCancel={this._hideDateTimePicker}
+          mode={'date'}
+        />
               </Left>
               <Right>
                 <Icon name="arrow-forward" />
               </Right>
             </CardItem>
-            </TouchableHighlight>
 
+            <CardItem>
+              <Left>
+                <Icon
+                  active
+                  name="ios-time"
+                  style={{ color: "#3B579D" }}
+                />
+                 <TouchableOpacity onPress={this._showTimePicker}>
+                <Text>{this.state.TimeValue}</Text>
+                </TouchableOpacity>
+                <DateTimePicker
+          isVisible={this.state.isTimePickerVisible}
+          onConfirm={this._handleTimePicked}
+          onCancel={this._hideTimePicker}
+          mode={'time'}
+        />
+              </Left>
+              <Right>
+                <Icon name="arrow-forward" />
+              </Right>
+            </CardItem>
             <CardItem>
               <Left>
                 <Icon active name="thumbs-up" style={{ color: "#55ACEE" }} />
