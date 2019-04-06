@@ -17,6 +17,7 @@ import {
 } from "native-base";
 import RNPickerSelect from 'react-native-picker-select';
 import DateTimePicker from 'react-native-modal-datetime-picker';
+import CalenderScreen from "./CalenderScreen";
 
 const People = [
   {
@@ -77,7 +78,8 @@ class FormScreen extends Component {
       isDateTimePickerVisible: false,
       isTimePickerVisible: false,
       dateValue: 'Select Date',
-      TimeValue: 'Select Time'
+      TimeValue: 'Select Time',
+      isPrivate:false,
     }
   };
 
@@ -105,6 +107,28 @@ class FormScreen extends Component {
     this.setState({TimeValue:date})
   };
  
+// Determin the Room type by resetting the isPrivate state
+
+  DeterminRoomType = (PriviateOrPublic) =>{
+    console.log('Here')
+    console.log(this.state.isPrivate)
+
+      if(PriviateOrPublic==='Private')
+      {
+        this.setState({ isPrivate: true });
+
+        console.log('Hello');
+        console.log(this.state.isPrivate);
+      }
+      else{
+        // this.setState({
+        //   isPrivate:false
+        // })
+        console.log('Kugou');
+        console.log(this.state.isPrivate);
+      }
+      
+  }
 
   render() {
     const {navigate} = this.props.navigation; //Defind for Navagation
@@ -230,6 +254,17 @@ class FormScreen extends Component {
                     this.setState({
                       PrivateOrPublic: value,
                     });
+                    
+                    
+                  }}
+
+                  // Calling the OnDone function and call determinRoom Type function inside
+                  onDonePress={()=>{
+                    //console.log(this.state.PrivateOrPublic);
+                    this.DeterminRoomType(this.state.PrivateOrPublic);
+                      if(this.state.isPrivate){
+                         return <CalenderScreen/>
+                      }               
                   }}
                   style={pickerSelectStyles}
                   />
@@ -238,7 +273,9 @@ class FormScreen extends Component {
               <Right>
                 <Icon name="arrow-forward" />
               </Right>
-            </CardItem>       
+                  
+            </CardItem> 
+
           </Card>
               <Button info style={{alignSelf:'center'}}>
                 <Text>
