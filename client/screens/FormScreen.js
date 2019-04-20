@@ -29,6 +29,7 @@ import {
 import RNPickerSelect from "react-native-picker-select";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import CalenderScreen from "./CalenderScreen";
+// import SearchYelpPage from "./SearchYelpPage";
 
 const People = [
   {
@@ -141,8 +142,8 @@ class FormScreen extends Component {
   };
 
   render() {
-    const { navigate } = this.props.navigation; //Defind for Navagation
-    const { navigation } = this.props;
+    const { navigation } = this.props; //Defind for Navagation
+    // const { navigation } = this.props;
     //const time = navigation.getParam('time', 'Select Time');
     const placeholder = {
       label: "Select",
@@ -241,7 +242,13 @@ class FormScreen extends Component {
             <CardItem>
               <Left>
                 <Icon active name="thumbs-up" style={{ color: "#55ACEE" }} />
-                <Text>Select place</Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate("SearchYelpPage");
+                  }}
+                >
+                  <Text>Select Place</Text>
+                </TouchableOpacity>
               </Left>
               <Right>
                 <Icon name="arrow-forward" />

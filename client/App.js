@@ -19,6 +19,7 @@ import AuthScreen from "./screens/AuthScreen";
 import FormScreen from "./screens/FormScreen";
 import Calender from "./screens/CalenderScreen";
 import CalenderScreen from "./screens/CalenderScreen";
+import SearchYelpPage from "./screens/SearchYelpPage";
 
 /**
  *  AppSwitchNavigator
@@ -38,8 +39,7 @@ const AppTabNavigator = createBottomTabNavigator(
     Feed: { screen: FeedScreen },
     Chat: { screen: ChatScreen },
     // Profile: { screen: ProfileScreen },
-    Setting: { screen: SettingScreen },
-    calender: {screen: Calender}
+    Setting: { screen: SettingScreen }
   },
   {
     navigationOptions: ({ navigation }) => {
@@ -53,8 +53,9 @@ const AppTabNavigator = createBottomTabNavigator(
 
 const AppStackNavigator = createStackNavigator({
   Home: { screen: AppTabNavigator },
-  Form : {screen: FormScreen},
-  Calender: {screen : CalenderScreen}
+  Form: { screen: FormScreen },
+  Calender: { screen: CalenderScreen },
+  SearchYelpPage: { screen: SearchYelpPage }
 });
 
 const AppSwitchNavigator = createSwitchNavigator(
