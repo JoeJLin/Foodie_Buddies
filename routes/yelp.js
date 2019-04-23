@@ -4,13 +4,12 @@ const yelp = require("yelp-fusion");
 require("dotenv").config();
 const client = yelp.client(process.env.YELP_KEY);
 
-
-router.post("/", (req, res) => {
-  console.log(req.body.term);
+router.get("/search", (req, res) => {
   client
     .search({
-      term: req.body.term,
-      location: "new york city, ny"
+      term: req.query.term,
+      location: req.query.location
+      // location: "new york city, ny"
     })
     .then(response => {
       // console.log(response.jsonBody.businesses);
@@ -18,6 +17,20 @@ router.post("/", (req, res) => {
     })
     .catch(e => {
       console.log(e);
+    });
+});
+
+router.get("/detail", (req, res) => {
+  console.log(req.query);
+  client
+    .business(req.query.id)
+    .then(response => {
+      console.log(response);
+      res.send(response);
+    })
+    .catch(err => {
+      console.log(err);
+      res.send(err);
     });
 });
 
