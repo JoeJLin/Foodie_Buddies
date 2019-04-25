@@ -11,7 +11,10 @@ import {
   Icon,
   Left,
   Body,
-  Right
+  Right,
+  Spinner,
+  List,
+  ListItem
 } from "native-base";
 import axios from "axios";
 import { API_PATH } from "../config/keys";
@@ -57,23 +60,30 @@ class DetailPage extends Component {
     return (
       <Container>
         {this.state.isLoading ? (
-          <Text>Loading....</Text>
+           <Spinner color="blue" />
         ) : (
           <Card>
             <CardItem>
+              <Left>
               <Thumbnail
                 source={{ uri: this.state.data.photos[0] }}
+              />
+              <Text style={{fontSize:16}}>
+                  {this.state.data.name}
+              </Text>
+              </Left>
+            </CardItem> 
+            <CardItem>
+              <Thumbnail
+                source={{ uri: this.state.data.photos[1] }}
                 style={{ height: 200, width: null, flex: 1 }}
               />
             </CardItem>
             <CardItem>
-              <Left>
-                <Text>{this.state.data.name}</Text>
-                <Text note>
-                  {this.state.data.rating} {this.state.data.reviewCount}
-                </Text>
-                <Text note>{this.state.data.categories}</Text>
-              </Left>
+              <Thumbnail
+                source={{ uri: this.state.data.photos[2] }}
+                style={{ height: 200, width: null, flex: 1 }}
+              />
             </CardItem>
           </Card>
         )}
