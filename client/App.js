@@ -20,6 +20,8 @@ import FormScreen from "./screens/FormScreen";
 import Calender from "./screens/CalenderScreen";
 import CalenderScreen from "./screens/CalenderScreen";
 import SearchYelpPage from "./screens/SearchYelpPage";
+import NavigationScreen from "./screens/NavigationScreen";
+import DetailPage from "./screens/DetailPage";
 
 /**
  *  AppSwitchNavigator
@@ -53,9 +55,11 @@ const AppTabNavigator = createBottomTabNavigator(
 
 const AppStackNavigator = createStackNavigator({
   Home: { screen: AppTabNavigator },
+  // Navigation: { screen: NavigationScreen },
   Form: { screen: FormScreen },
   Calender: { screen: CalenderScreen },
-  SearchYelpPage: { screen: SearchYelpPage }
+  SearchYelpPage: { screen: SearchYelpPage },
+  Detail: { screen: DetailPage }
 });
 
 const AppSwitchNavigator = createSwitchNavigator(
