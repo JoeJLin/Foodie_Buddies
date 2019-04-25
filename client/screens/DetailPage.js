@@ -15,11 +15,15 @@ import {
 } from "native-base";
 import axios from "axios";
 import { API_PATH } from "../config/keys";
+import { AsyncStorage } from "react-native";
 
 class DetailPage extends Component {
   constructor() {
     super();
-    this.state = { data: null, isLoading: true };
+    this.state = {
+      data: null,
+      isLoading: true
+    };
   }
 
   componentDidMount() {
@@ -53,30 +57,65 @@ class DetailPage extends Component {
       });
   }
 
+  savePlaceId = () => {
+    console.log("press the button");
+    console.log(this.state.data.id);
+    AsyncStorage.removeItem("selectedPlace");
+    AsyncStorage.setItem(
+      "selectedPlace",
+      JSON.stringify({
+        id: this.state.data.id,
+        name: this.state.data.name
+      }),
+      (err, response) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        console.log(response);
+      }
+    );
+  };
+
   render() {
     return (
       <Container>
         {this.state.isLoading ? (
-          <Text>Loading....</Text>
+          <Text> Loading.... </Text>
         ) : (
           <Card>
             <CardItem>
               <Thumbnail
-                source={{ uri: this.state.data.photos[0] }}
-                style={{ height: 200, width: null, flex: 1 }}
+                source={{
+                  uri: this.state.data.photos[0]
+                }}
+                style={{
+                  height: 200,
+                  width: null,
+                  flex: 1
+                }}
               />
             </CardItem>
             <CardItem>
               <Left>
-                <Text>{this.state.data.name}</Text>
-                <Text note>
-                  {this.state.data.rating} {this.state.data.reviewCount}
-                </Text>
-                <Text note>{this.state.data.categories}</Text>
+                <Text> {this.state.data.name} </Text>
+                <Text note> rating: {this.state.data.rating} </Text>
+                <Text>review count: {this.state.data.reviewCount} </Text>
+                <Text note> {this.state.data.categories} </Text>
               </Left>
+              <Body />
             </CardItem>
           </Card>
         )}
+        <Button
+          primary
+          style={{
+            alignSelf: "center"
+          }}
+          onPress={this.savePlaceId}
+        >
+          <Text> Select This </Text>
+        </Button>
       </Container>
     );
   }
