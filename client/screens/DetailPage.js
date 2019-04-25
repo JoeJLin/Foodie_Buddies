@@ -16,8 +16,10 @@ import {
   List,
   ListItem
 } from "native-base";
+import { Col, Row, Grid } from "react-native-easy-grid";
 import axios from "axios";
 import { API_PATH } from "../config/keys";
+
 
 class DetailPage extends Component {
   constructor() {
@@ -72,8 +74,33 @@ class DetailPage extends Component {
                   {this.state.data.name}
               </Text>
               </Left>
+              <Right>
+                  <Button>
+                    <Text>
+                        Select
+                    </Text>
+                  </Button>
+              </Right>
             </CardItem> 
-            <CardItem>
+            <CardItem style={{backgroundColor:'#87ceeb'}}>
+              <Icon name="ios-contact" style={{fontSize: 25}}/>
+              <Text>
+              To Call: {this.state.data.phone}
+              </Text>
+            </CardItem> 
+            <CardItem style={{backgroundColor:'#b0e0e6'}}>
+              <Icon name="ios-filing" style={{fontSize: 25}}/>
+              <Text>
+              Address: {this.state.data.address}
+              </Text>
+            </CardItem> 
+            <CardItem style={{backgroundColor:'#87ceeb'}}>
+              <Icon name="ios-heart" style={{fontSize: 25}}/>
+              <Text>
+              Categories: {this.state.data.categories}
+              </Text>
+            </CardItem> 
+            <CardItem style={{paddingTop:10}}>
               <Thumbnail
                 source={{ uri: this.state.data.photos[1] }}
                 style={{ height: 200, width: null, flex: 1 }}
@@ -89,6 +116,7 @@ class DetailPage extends Component {
         )}
       </Container>
     );
+
   }
 }
 
