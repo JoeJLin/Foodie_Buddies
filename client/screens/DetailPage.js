@@ -11,8 +11,12 @@ import {
   Icon,
   Left,
   Body,
-  Right
+  Right,
+  Spinner,
+  List,
+  ListItem
 } from "native-base";
+import { Col, Row, Grid } from "react-native-easy-grid";
 import axios from "axios";
 import { API_PATH } from "../config/keys";
 import { AsyncStorage } from "react-native";
@@ -81,13 +85,77 @@ class DetailPage extends Component {
     return (
       <Container>
         {this.state.isLoading ? (
-          <Text> Loading.... </Text>
+          <Spinner color="blue" />
         ) : (
           <Card>
             <CardItem>
+              <Left>
+                <Thumbnail
+                  source={{
+                    uri: this.state.data.photos[0]
+                  }}
+                />
+                <Text
+                  style={{
+                    fontSize: 16
+                  }}
+                >
+                  {this.state.data.name}
+                </Text>
+              </Left>
+              <Right>
+                <Button>
+                  <Text>Select </Text>
+                </Button>
+              </Right>
+            </CardItem>
+            <CardItem
+              style={{
+                backgroundColor: "#87ceeb"
+              }}
+            >
+              <Icon
+                name="ios-contact"
+                style={{
+                  fontSize: 25
+                }}
+              />
+              <Text>To Call: {this.state.data.phone} </Text>
+            </CardItem>
+            <CardItem
+              style={{
+                backgroundColor: "#b0e0e6"
+              }}
+            >
+              <Icon
+                name="ios-filing"
+                style={{
+                  fontSize: 25
+                }}
+              />
+              <Text>Address: {this.state.data.address} </Text>
+            </CardItem>
+            <CardItem
+              style={{
+                backgroundColor: "#87ceeb"
+              }}
+            >
+              <Icon
+                name="ios-heart"
+                style={{
+                  fontSize: 25
+                }}
+              />
+              <Text>Categories: {this.state.data.categories} </Text>
+            </CardItem>
+            <CardItem
+              style={{
+                paddingTop: 10
+              }}
+            >
               <Thumbnail
                 source={{
-                  uri: this.state.data.photos[0]
+                  uri: this.state.data.photos[1]
                 }}
                 style={{
                   height: 200,
@@ -97,13 +165,16 @@ class DetailPage extends Component {
               />
             </CardItem>
             <CardItem>
-              <Left>
-                <Text> {this.state.data.name} </Text>
-                <Text note> rating: {this.state.data.rating} </Text>
-                <Text>review count: {this.state.data.reviewCount} </Text>
-                <Text note> {this.state.data.categories} </Text>
-              </Left>
-              <Body />
+              <Thumbnail
+                source={{
+                  uri: this.state.data.photos[2]
+                }}
+                style={{
+                  height: 200,
+                  width: null,
+                  flex: 1
+                }}
+              />
             </CardItem>
           </Card>
         )}

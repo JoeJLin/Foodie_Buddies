@@ -96,7 +96,7 @@ class SearchYelpPage extends Component {
               this.submitSearch(event);
             }}
           />
-          <List>
+          <List style={{paddingTop:30}}>
             {this.state.data.map((item, i) => {
               return <PlaceList dataList={item} key={i} />;
             })}

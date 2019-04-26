@@ -126,16 +126,19 @@ class FormScreen extends Component {
     console.log(this.state.isPrivate);
 
     if (this.state.PrivateOrPublic === "Private") {
+
       this.setState({ isPrivate: true });
 
-      console.log("in private");
-      console.log(this.state.isPrivate);
+      
     } else {
       this.setState({
         isPrivate: false
       });
-      console.log("in public");
+
     }
+
+
+    console.log(this.state.isPrivate)
   };
 
   render() {
