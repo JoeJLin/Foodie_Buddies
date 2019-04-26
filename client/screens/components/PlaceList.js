@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet,View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import {
   Container,
   Header,
@@ -25,51 +25,57 @@ class PlaceList extends Component {
   render() {
     return (
       // <ListItem>
-      
-        <ListItem avatar style={{backgroundColor:'#fffff0'}}>
-          <Left>
-            <Thumbnail large
-              source={{
-                uri: this.props.dataList.imageUrl
-                  ? this.props.dataList.imageUrl
-                  : "../../assets/404.png"
-              }}
-            />
-          </Left>
-          <Body>
-            <View>
+
+      <ListItem avatar style={{ backgroundColor: "#fffff0" }}>
+        <Left>
+          <Thumbnail
+            large
+            source={{
+              uri: this.props.dataList.imageUrl
+                ? this.props.dataList.imageUrl
+                : "../../assets/404.png"
+            }}
+          />
+        </Left>
+        <Body>
+          <View>
             {/* {console.log(this.props.dataList.name)} */}
             <Text>{this.props.dataList.name}</Text>
             <Text> </Text>
-            <Text note 
-             style={{fontSize:16,color:'black'}}>
-            <Icon name="ios-flame" style={{fontSize: 25,color:'red'}}/>  Rating: {this.props.dataList.rating}
+            <Text note style={{ fontSize: 16, color: "black" }}>
+              <Icon name="ios-flame" style={{ fontSize: 25, color: "red" }} />{" "}
+              Rating: {this.props.dataList.rating}
             </Text>
-            <Text note
-            style={{fontSize:16,color:'black'}}>
-            <Icon name="ios-star" style={{fontSize: 25,color:'orange'}}/>  Rating: {this.props.dataList.price}</Text>
-            </View>
-          </Body>
-        
-          <Right>
-            <Text></Text>
-            <Button transparent>
-              <Text
-                note
-                style={{fontSize:16,color:'black'}}
-                // data={this.props.dataList.id}
-                onPress={() => {
-                  console.log("console log!!!!!!!!!!! ", this.props.dataList.id);
-                  this.props.navigation.navigate("Detail", {
-                    itemId: this.props.dataList.id
-                  });
-                }}
-              >
-                View
-              </Text>
-            </Button>
-          </Right>
-        </ListItem>
+            <Text note style={{ fontSize: 16, color: "black" }}>
+              <Icon name="ios-star" style={{ fontSize: 25, color: "orange" }} />{" "}
+              Rating: {this.props.dataList.price}
+            </Text>
+          </View>
+        </Body>
+
+        <Right>
+          <Text />
+          <Button transparent>
+            <Text
+              note
+              style={{ fontSize: 16, color: "black" }}
+              // data={this.props.dataList.id}
+              onPress={() => {
+                console.log("console log!!!!!!!!!!! ", this.props.dataList.id);
+                console.log(this.props.navigation);
+                this.props.navigation.navigate("Detail", {
+                  itemId: this.props.dataList.id,
+                  goBackKey: this.props.navigation.state.key,
+                  updatePlaceState: this.props.navigation.state.params
+                    .updatePlaceState
+                });
+              }}
+            >
+              View
+            </Text>
+          </Button>
+        </Right>
+      </ListItem>
     );
   }
 }
