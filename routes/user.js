@@ -24,7 +24,9 @@ router.post("/", (req, res) => {
       res.send(err);
     });
 });
-
+router.post("/picture",(req, res)=>{
+  let photoUrl =req.body.photoUrl;
+})
 router.get("/getUser", (req, res) => {
   console.log(req.query.userId);
 });
