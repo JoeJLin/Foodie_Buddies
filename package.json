@@ -20,6 +20,7 @@
     "mongodb": "^3.2.2",
     "mongoose": "^5.4.20",
     "react-native-easy-grid": "^0.2.1",
+    "react-native-image-picker": "^0.28.1",
     "yelp-fusion": "^3.0.0"
   },
   "devDependencies": {
