@@ -7,7 +7,8 @@ import {
   Image,
   Modal,
   TouchableHighlight,
-  TouchableOpacity
+  TouchableOpacity,
+  AsyncStorage
 } from "react-native";
 import {
   Container,
@@ -34,43 +35,43 @@ import CalenderScreen from "./CalenderScreen";
 const People = [
   {
     label: "1 person",
-    value: "1"
+    value: 1
   },
   {
     label: "2 people",
-    value: "2 people"
+    value: 2
   },
   {
     label: "3 people",
-    value: "3 people"
+    value: 3
   },
   {
     label: "4 people",
-    value: "4 people"
+    value: 4
   },
   {
     label: "5 people",
-    value: "5 people"
+    value: 5
   },
   {
     label: "6 people",
-    value: "6 people"
+    value: 6
   },
   {
     label: "7 people",
-    value: "7 people"
+    value: 7
   },
   {
     label: "8 people",
-    value: "8 people"
+    value: 8
   },
   {
     label: "9 people",
-    value: "9 people"
+    value: 9
   },
   {
     label: "10 people",
-    value: "10 people"
+    value: 10
   }
 ];
 const Roomtype = [
@@ -81,8 +82,8 @@ const Roomtype = [
   { label: "Private", value: "Private" }
 ];
 class FormScreen extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       RoomValue: "Select Roomsize",
       PrivateOrPublic: "Select Room Type",
@@ -91,8 +92,25 @@ class FormScreen extends Component {
       dateValue: "Select Date",
       TimeValue: "Select Time",
       isPrivate: false,
-      roomCode: ""
+      roomCode: "",
+      place: "Select Place",
+      placeId: null
     };
+  }
+  // test = () => {
+  //   console.log("this is test");
+  //   console.log(this.props.navigation);
+  // };
+  componentDidMount() {
+    console.log("here");
+    // console.log(this.props.navigation);
+    // AsyncStorage.getItem("selectedPlace", (err, result) => {
+    //   console.log(err, result);
+    //   if (err) {
+    //     console.log(err);
+    //     return;
+    //   }
+    // });
   }
 
   _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
@@ -100,11 +118,25 @@ class FormScreen extends Component {
   _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
 
   _handleDatePicked = date => {
-    date = new Date().toDateString();
-
-    console.log("A date has been picked: ", date);
+    console.log(date);
+    date = new Date(date);
+    let curDate =
+      date.getMonth() + 1 + "/" + date.getDate() + "/" + date.getFullYear();
+    console.log("A date has been picked: ", curDate);
     this._hideDateTimePicker();
-    this.setState({ dateValue: date });
+    this.setState({ dateValue: curDate });
+  };
+
+  formatAmPm = date => {
+    let time = new Date(date);
+    let hours = time.getHours();
+    let minutes = time.getMinutes();
+    let ampm = hours >= 12 ? " PM" : " AM";
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    let strTime = hours + ":" + minutes + ampm;
+    return strTime;
   };
 
   _showTimePicker = () => this.setState({ isTimePickerVisible: true });
@@ -112,11 +144,11 @@ class FormScreen extends Component {
   _hideTimePicker = () => this.setState({ isTimePickerVisible: false });
 
   _handleTimePicked = date => {
-    date = new Date().toTimeString();
-
-    console.log("A date has been picked: ", date);
+    // date = new Date().toTimeString();
+    let time = this.formatAmPm(date);
+    console.log("A date has been picked: ", time);
     this._hideTimePicker();
-    this.setState({ TimeValue: date });
+    this.setState({ TimeValue: time });
   };
 
   // Determin the Room type by resetting the isPrivate state
@@ -126,19 +158,19 @@ class FormScreen extends Component {
     console.log(this.state.isPrivate);
 
     if (this.state.PrivateOrPublic === "Private") {
-
       this.setState({ isPrivate: true });
-
-      
     } else {
       this.setState({
         isPrivate: false
       });
-
     }
 
+    console.log(this.state.isPrivate);
+  };
 
-    console.log(this.state.isPrivate)
+  getPlaceInfo = data => {
+    console.log(data);
+    this.setState({ place: data.name, placeId: data.id });
   };
 
   render() {
@@ -245,10 +277,12 @@ class FormScreen extends Component {
                 <Icon active name="thumbs-up" style={{ color: "#55ACEE" }} />
                 <TouchableOpacity
                   onPress={() => {
-                    navigation.navigate("SearchYelpPage");
+                    navigation.navigate("SearchYelpPage", {
+                      updatePlaceState: data => this.getPlaceInfo(data)
+                    });
                   }}
                 >
-                  <Text>Select Place</Text>
+                  <Text>{this.state.place}</Text>
                 </TouchableOpacity>
               </Left>
               <Right>

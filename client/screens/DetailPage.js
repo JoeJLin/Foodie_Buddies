@@ -20,6 +20,7 @@ import { Col, Row, Grid } from "react-native-easy-grid";
 import axios from "axios";
 import { API_PATH } from "../config/keys";
 import { AsyncStorage } from "react-native";
+import { withNavigation, NavigationActions } from "react-navigation";
 
 class DetailPage extends Component {
   constructor() {
@@ -64,7 +65,14 @@ class DetailPage extends Component {
   savePlaceId = () => {
     console.log("press the button");
     console.log(this.state.data.id);
+    console.log(this.props.navigation);
     AsyncStorage.removeItem("selectedPlace");
+    // this.props.navigation.state.params({
+    //   selectedPlace: {
+    //     id: this.state.data.id,
+    //     name: this.state.data.name
+    //   }
+    // });
     AsyncStorage.setItem(
       "selectedPlace",
       JSON.stringify({
@@ -76,7 +84,30 @@ class DetailPage extends Component {
           console.log(err);
           return;
         }
-        console.log(response);
+        this.props.navigation.state.params.updatePlaceState({
+          id: this.state.data.id,
+          name: this.state.data.name
+        });
+        // const setParamsAction = NavigationActions.setParams({
+        //   params: {
+        //     selectedPlace: {
+        //       id: this.state.data.id,
+        //       name: this.state.data.name
+        //     }
+        //   },
+        //   key: "Form"
+        // });
+        // this.props.navigation.dispatch(setParamsAction);
+        this.props.navigation.goBack(
+          this.props.navigation.state.params.goBackKey
+        );
+        // this.props.navigation.navigate("Form", {
+        //   selectedPlace: {
+        //     id: this.state.data.id,
+        //     name: this.state.data.name
+        //   }
+        // });
+        // console.log(response);
       }
     );
   };
@@ -192,4 +223,4 @@ class DetailPage extends Component {
   }
 }
 
-export default DetailPage;
+export default withNavigation(DetailPage);
