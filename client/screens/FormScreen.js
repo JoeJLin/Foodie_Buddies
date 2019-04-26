@@ -34,7 +34,7 @@ import CalenderScreen from "./CalenderScreen";
 const People = [
   {
     label: "1 person",
-    value: "1 person"
+    value: "1"
   },
   {
     label: "2 people",
@@ -191,6 +191,7 @@ class FormScreen extends Component {
                     placeholder={typleHolder}
                     items={People}
                     onValueChange={value => {
+                      console.log(value);
                       this.setState({
                         RoomValue: value
                       });

@@ -4,6 +4,7 @@ import { BING_MAP_KEY } from "../config/keys";
 import axios from "axios";
 
 class NavigationScreen extends Component {
+
   constructor(props) {
     super(props);
 
@@ -15,6 +16,7 @@ class NavigationScreen extends Component {
   }
 
   componentDidMount() {
+    this.getLocationAsync();
     navigator.geolocation.getCurrentPosition(
       position => {
         console.log(position);
@@ -94,6 +96,15 @@ class NavigationScreen extends Component {
     );
   }
 
+  async getLocationAsync() {
+    const { Location, Permissions } = Expo;
+    const { status } = await Permissions.askAsync(Expo.Permissions.CAMERA_ROLL);
+    if (status === 'granted') {
+      return Location.getCurrentPositionAsync({enableHighAccuracy: true});
+    } else {
+      throw new Error('Location permission not granted');
+    }
+  }
   render() {
     return (
       <View
