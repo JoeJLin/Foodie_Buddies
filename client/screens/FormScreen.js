@@ -201,11 +201,12 @@ class FormScreen extends Component {
         <Image
           style={{
             width: 100 + "%",
-            height: 150
+            height: 250
           }}
           source={{
             uri:
-              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS22ybkAttkcFp4y9vUNupY-RyE-iME6Qr8emVpaLHs-X4UzkeI"
+              //"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS22ybkAttkcFp4y9vUNupY-RyE-iME6Qr8emVpaLHs-X4UzkeI"
+              "https://images.pexels.com/photos/696218/pexels-photo-696218.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
           }}
         />
 
@@ -325,7 +326,7 @@ class FormScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFF",
+    backgroundColor: "#fffaf0",
     justifyContent: "center"
     //alignItems: "center",
   },

@@ -59,7 +59,8 @@ const AppStackNavigator = createStackNavigator({
   Form: { screen: FormScreen },
   Calender: { screen: CalenderScreen },
   SearchYelpPage: { screen: SearchYelpPage },
-  Detail: { screen: DetailPage }
+  Detail: { screen: DetailPage },
+  ProfileScreen:{ screen: ProfileScreen}
 });
 
 const AppSwitchNavigator = createSwitchNavigator(
