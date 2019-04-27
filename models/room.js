@@ -2,6 +2,9 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const RoomSchema = mongoose.Schema({
+  name: {
+    type: String
+  },
   host: {
     type: String
   },
@@ -15,14 +18,18 @@ const RoomSchema = mongoose.Schema({
   size: {
     type: Number
   },
-  place: {
+  placeId: {
     type: String
   },
   isPrivate: {
     type: Boolean
   },
-  code: {
+  roomCode: {
     type: String
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
   }
 });
 

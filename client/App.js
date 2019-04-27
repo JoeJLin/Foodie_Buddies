@@ -6,6 +6,7 @@ import {
   createSwitchNavigator
 } from "react-navigation";
 import { StyleSheet, Text, View } from "react-native";
+import { Root } from "native-base";
 import axios from "axios";
 import { API_PATH } from "./config/keys";
 
@@ -75,4 +76,10 @@ const AppSwitchNavigator = createSwitchNavigator(
 
 const AppContainer = createAppContainer(AppSwitchNavigator);
 
-export default AppContainer;
+export default () => {
+  return (
+    <Root>
+      <AppContainer />
+    </Root>
+  );
+};

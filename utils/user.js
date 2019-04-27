@@ -28,6 +28,21 @@ const checkAndCreateUser = (userId, email, familyName, givenName, photoUrl) => {
   });
 };
 
+const getUserInfo = userId => {
+  return new Promise((resolve, reject) => {
+    User.findOne({ userId })
+      .then(user => {
+        resolve(user);
+        return;
+      })
+      .catch(err => {
+        reject(err);
+        return;
+      });
+  });
+};
+
 module.exports = {
-  checkAndCreateUser
+  checkAndCreateUser,
+  getUserInfo
 };
