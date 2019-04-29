@@ -25,6 +25,7 @@ mongoose.connect(
       console.log(err);
     } else {
       console.log("connect to db");
+      require("./dbWork").work();
     }
   }
 );

@@ -1,7 +1,10 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const RoomSchema = mongoose.Schema({
+let RoomSchema = mongoose.Schema({
+  name: {
+    type: String
+  },
   host: {
     type: String
   },
@@ -15,16 +18,39 @@ const RoomSchema = mongoose.Schema({
   size: {
     type: Number
   },
-  place: {
+  placeId: {
     type: String
   },
   isPrivate: {
     type: Boolean
   },
-  code: {
+  roomCode: {
     type: String
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now
+  },
+  isPast: {
+    type: Boolean,
+    default: false
+  },
+  location: {
+    type: { type: String, default: "Point", enum: ["Point"] },
+    coordinates: []
+    // index: "2dsphere"
   }
+  // latitude: {
+  //   type: Number
+  // },
+  // longitude: {
+  //   type: Number
+  // }
 });
-
+RoomSchema.index({ location: "2dsphere" });
 const Room = mongoose.model("Room", RoomSchema);
 module.exports = Room;

@@ -4,7 +4,6 @@ import { BING_MAP_KEY } from "../config/keys";
 import axios from "axios";
 
 class NavigationScreen extends Component {
-
   constructor(props) {
     super(props);
 
@@ -25,6 +24,8 @@ class NavigationScreen extends Component {
         let longitude = JSON.stringify(position.coords.longitude);
         const url = `http://dev.virtualearth.net/REST/v1/Locations/${latitude},${longitude}?key=${BING_MAP_KEY}`;
         console.log(url);
+        AsyncStorage.setItem("latitude", latitude);
+        AsyncStorage.setItem("longitude", longitude);
         axios
           .get(url)
           .then(response => {
@@ -99,10 +100,10 @@ class NavigationScreen extends Component {
   async getLocationAsync() {
     const { Location, Permissions } = Expo;
     const { status } = await Permissions.askAsync(Expo.Permissions.CAMERA_ROLL);
-    if (status === 'granted') {
-      return Location.getCurrentPositionAsync({enableHighAccuracy: true});
+    if (status === "granted") {
+      return Location.getCurrentPositionAsync({ enableHighAccuracy: true });
     } else {
-      throw new Error('Location permission not granted');
+      throw new Error("Location permission not granted");
     }
   }
   render() {

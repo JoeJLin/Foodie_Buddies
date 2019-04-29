@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import {
-  DatePickerIOS,
   ScrollView,
   View,
   StyleSheet,
@@ -13,7 +12,6 @@ import {
 import {
   Container,
   Header,
-  Title,
   Content,
   Button,
   Icon,
@@ -22,14 +20,18 @@ import {
   Text,
   Left,
   Right,
-  Body,
   Form,
   Input,
-  Item
+  Item,
+  Toast,
+  Body,
+  Textarea
 } from "native-base";
 import RNPickerSelect from "react-native-picker-select";
 import DateTimePicker from "react-native-modal-datetime-picker";
-import CalenderScreen from "./CalenderScreen";
+import axios from "axios";
+import { API_PATH } from "../config/keys";
+
 // import SearchYelpPage from "./SearchYelpPage";
 
 const People = [
@@ -85,16 +87,19 @@ class FormScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      RoomValue: "Select Roomsize",
+      RoomValue: null,
       PrivateOrPublic: "Select Room Type",
       isDateTimePickerVisible: false,
       isTimePickerVisible: false,
-      dateValue: "Select Date",
-      TimeValue: "Select Time",
+      dateValue: null,
+      TimeValue: null,
       isPrivate: false,
-      roomCode: "",
-      place: "Select Place",
-      placeId: null
+      roomCode: null,
+      place: null,
+      placeId: null,
+      showToast: false,
+      description: null,
+      name: null
     };
   }
   // test = () => {
@@ -173,6 +178,126 @@ class FormScreen extends Component {
     this.setState({ place: data.name, placeId: data.id });
   };
 
+  submitForm = () => {
+    console.log(this.state);
+    const {
+      RoomValue,
+      dateValue,
+      TimeValue,
+      isPrivate,
+      roomCode,
+      placeId,
+      name,
+      description
+    } = this.state;
+    console.log(RoomValue, dateValue, TimeValue, isPrivate, roomCode, placeId);
+    if (
+      RoomValue !== null &&
+      dateValue !== null &&
+      TimeValue !== null &&
+      isPrivate !== null &&
+      placeId !== null &&
+      description !== null &&
+      name !== null
+    ) {
+      if (isPrivate === true && roomCode === null) {
+        Toast.show({
+          text: "Missing a code for psrivate room",
+          buttonText: "Close",
+          type: "danger",
+          duration: 3000
+        });
+      } else if (isPrivate === false && roomCode === null) {
+        console.log("do not have code and public");
+        this.createRoom(
+          RoomValue,
+          dateValue,
+          TimeValue,
+          isPrivate,
+          placeId,
+          name,
+          description
+        );
+      } else {
+        console.log("private and have room code");
+        this.createRoom(
+          RoomValue,
+          dateValue,
+          TimeValue,
+          isPrivate,
+          placeId,
+          name,
+          description,
+          roomCode
+        );
+      }
+    } else {
+      Toast.show({
+        text: "Empty fields",
+        buttonText: "Okay",
+        type: "danger",
+        duration: 3000
+      });
+    }
+  };
+
+  createRoom = (
+    RoomValue,
+    dateValue,
+    TimeValue,
+    isPrivate,
+    placeId,
+    name,
+    description,
+    roomCode
+  ) => {
+    // return new Promise((resolve, reject) => {
+    console.log("in create room front end");
+    AsyncStorage.getItem("userId", (err, userId) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+
+      axios
+        .post(`${API_PATH}/room/create`, {
+          RoomValue,
+          dateValue,
+          TimeValue,
+          isPrivate,
+          placeId,
+          roomCode,
+          userId,
+          name,
+          description
+        })
+        .then(result => {
+          // console.log("in success");
+          // console.log(result);
+          // resolve(result);
+          Toast.show({
+            text: "Create room success",
+            buttonText: "Okay",
+            type: "success",
+            duration: 3000
+          });
+          this.props.navigation.goBack();
+          return;
+        })
+        .catch(err => {
+          console.log(err);
+          Toast.show({
+            text: "Error in create room",
+            buttonText: "Close",
+            type: "danger",
+            duration: 3000
+          });
+          // reject(err);
+        });
+    });
+    // });
+  };
+
   render() {
     const { navigation } = this.props; //Defind for Navagation
     // const { navigation } = this.props;
@@ -182,18 +307,24 @@ class FormScreen extends Component {
       value: null,
       color: "#151719"
     };
-    const typleHolder = {
+    const typeHolder = {
       label: "Select",
       value: null,
       color: "#151719"
     };
     const roomCode = (
       <CardItem>
-        {/* <Content> */}
         <Item regular>
-          <Input placeholder="Enter room code" />
+          <Input
+            placeholder="Enter room code"
+            value={this.state.isPrivate ? roomCode : null}
+            onChange={e => {
+              this.setState({
+                roomCode: e.nativeEvent.text
+              });
+            }}
+          />
         </Item>
-        {/* </Content> */}
       </CardItem>
     );
     return (
@@ -217,11 +348,49 @@ class FormScreen extends Component {
             </CardItem>
 
             <CardItem>
+              <Icon active name="ios-color-filter" style={{ color: "black" }} />
+              <ScrollView keyboardShouldPersistTaps="handled">
+                <Input
+                  placeholder="Name"
+                  onChange={e => {
+                    this.setState({
+                      name: e.nativeEvent.text
+                    });
+                  }}
+                  value={this.state.name ? this.state.name : null}
+                />
+              </ScrollView>
+            </CardItem>
+
+            <CardItem>
+              {/* <Left>
+                <Icon active name="ios-bookmarks" style={{ color: "black" }} />
+              </Left> */}
+              <ScrollView keyboardShouldPersistTaps="handled">
+                <Form style={{ width: "100%" }}>
+                  <Textarea
+                    rowSpan={2}
+                    bordered
+                    placeholder="Description"
+                    value={
+                      this.state.description ? this.state.description : null
+                    }
+                    onChange={e => {
+                      this.setState({
+                        description: e.nativeEvent.text
+                      });
+                    }}
+                  />
+                </Form>
+              </ScrollView>
+            </CardItem>
+
+            <CardItem>
               <Left>
                 <Icon active name="ios-people" style={{ color: "black" }} />
                 <ScrollView>
                   <RNPickerSelect
-                    placeholder={typleHolder}
+                    placeholder={typeHolder}
                     items={People}
                     onValueChange={value => {
                       console.log(value);
@@ -242,7 +411,11 @@ class FormScreen extends Component {
               <Left>
                 <Icon active name="ios-calendar" style={{ color: "#3B579D" }} />
                 <TouchableOpacity onPress={this._showDateTimePicker}>
-                  <Text>{this.state.dateValue}</Text>
+                  <Text>
+                    {this.state.dateValue
+                      ? this.state.dateValue
+                      : "Select Date"}
+                  </Text>
                 </TouchableOpacity>
                 <DateTimePicker
                   isVisible={this.state.isDateTimePickerVisible}
@@ -260,7 +433,11 @@ class FormScreen extends Component {
               <Left>
                 <Icon active name="ios-time" style={{ color: "#3B579D" }} />
                 <TouchableOpacity onPress={this._showTimePicker}>
-                  <Text>{this.state.TimeValue}</Text>
+                  <Text>
+                    {this.state.TimeValue
+                      ? this.state.TimeValue
+                      : "Select Time"}
+                  </Text>
                 </TouchableOpacity>
                 <DateTimePicker
                   isVisible={this.state.isTimePickerVisible}
@@ -283,7 +460,9 @@ class FormScreen extends Component {
                     });
                   }}
                 >
-                  <Text>{this.state.place}</Text>
+                  <Text>
+                    {this.state.place ? this.state.place : "Select Place"}
+                  </Text>
                 </TouchableOpacity>
               </Left>
               <Right>
@@ -296,7 +475,7 @@ class FormScreen extends Component {
                 <Icon active name="ios-lock" style={{ color: "black" }} />
                 <ScrollView>
                   <RNPickerSelect
-                    placeholder={typleHolder}
+                    placeholder={typeHolder}
                     items={Roomtype}
                     onValueChange={value => {
                       this.setState({
@@ -314,8 +493,12 @@ class FormScreen extends Component {
             </CardItem>
             {this.state.isPrivate ? roomCode : null}
           </Card>
-          <Button info style={{ alignSelf: "center" }}>
-            <Text>Sumbit</Text>
+          <Button
+            info
+            style={{ alignSelf: "center" }}
+            onPress={() => this.submitForm()}
+          >
+            <Text>Submit</Text>
           </Button>
         </Content>
       </Container>
@@ -331,7 +514,7 @@ const styles = StyleSheet.create({
     //alignItems: "center",
   },
   mb: {
-    marginBottom: 15
+    marginBottom: 0
   }
 });
 const pickerSelectStyles = StyleSheet.create({
