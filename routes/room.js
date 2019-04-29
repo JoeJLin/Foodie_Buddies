@@ -18,18 +18,27 @@ router.post("/create", (req, res) => {
   let name = req.body.name;
   let formatDate = new Date(`${date} ${time}`);
   utils
-    .getUserInfo(hostId)
-    .then(host => {
-      console.log(host);
+    .getBusinessById(placeId)
+    .then(place => {
+      console.log(place);
       let room = new Room({
         host: hostId,
         description,
         // members,
         size,
+        name,
         date: formatDate,
         placeId,
         isPrivate,
-        roomCode
+        roomCode,
+        location: {
+          coordinates: [
+            place.jsonBody.coordinates.latitude,
+            place.jsonBody.coordinates.longitude
+          ]
+        }
+        // latitude: place.jsonBody.coordinates.latitude,
+        // longitude: place.jsonBody.coordinates.longitude
       });
       room.save((err, result) => {
         if (err) {
@@ -43,6 +52,22 @@ router.post("/create", (req, res) => {
     })
     .catch(err => {
       console.log(err);
+    });
+});
+
+router.get("/", (req, res) => {
+  // Room.createIndex({ point: "2dsphere" });
+  let latitude = parseFloat(req.query.latitude);
+  let longitude = parseFloat(req.query.longitude);
+  console.log(req.query);
+  utils
+    .getAllRooms(latitude, longitude)
+    .then(result => {
+      res.send(result);
+    })
+    .catch(err => {
+      console.log(err);
+      res.send(err);
     });
 });
 

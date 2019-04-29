@@ -191,15 +191,6 @@ class FormScreen extends Component {
       description
     } = this.state;
     console.log(RoomValue, dateValue, TimeValue, isPrivate, roomCode, placeId);
-    this.createRoom(
-      RoomValue,
-      dateValue,
-      TimeValue,
-      isPrivate,
-      placeId,
-      name,
-      description
-    );
     if (
       RoomValue !== null &&
       dateValue !== null &&
@@ -211,7 +202,7 @@ class FormScreen extends Component {
     ) {
       if (isPrivate === true && roomCode === null) {
         Toast.show({
-          text: "Missing a code for private room",
+          text: "Missing a code for psrivate room",
           buttonText: "Close",
           type: "danger",
           duration: 3000
@@ -229,6 +220,16 @@ class FormScreen extends Component {
         );
       } else {
         console.log("private and have room code");
+        this.createRoom(
+          RoomValue,
+          dateValue,
+          TimeValue,
+          isPrivate,
+          placeId,
+          name,
+          description,
+          roomCode
+        );
       }
     } else {
       Toast.show({
@@ -246,43 +247,55 @@ class FormScreen extends Component {
     TimeValue,
     isPrivate,
     placeId,
-    roomCode,
     name,
-    description
+    description,
+    roomCode
   ) => {
-    return new Promise((resolve, reject) => {
-      console.log("in create room front end");
-      const userId = AsyncStorage.getItem("userId", (err, userId) => {
-        if (err) {
-          reject(err);
-          return;
-        }
+    // return new Promise((resolve, reject) => {
+    console.log("in create room front end");
+    AsyncStorage.getItem("userId", (err, userId) => {
+      if (err) {
+        reject(err);
+        return;
+      }
 
-        console.log(userId);
-        axios
-          .post(`${API_PATH}/room/create`, {
-            RoomValue,
-            dateValue,
-            TimeValue,
-            isPrivate,
-            placeId,
-            roomCode,
-            userId,
-            name,
-            description
-          })
-          .then(result => {
-            console.log("in success");
-            console.log(result);
-            resolve(result);
-            return;
-          })
-          .catch(err => {
-            console.log(err);
-            reject(err);
+      axios
+        .post(`${API_PATH}/room/create`, {
+          RoomValue,
+          dateValue,
+          TimeValue,
+          isPrivate,
+          placeId,
+          roomCode,
+          userId,
+          name,
+          description
+        })
+        .then(result => {
+          // console.log("in success");
+          // console.log(result);
+          // resolve(result);
+          Toast.show({
+            text: "Create room success",
+            buttonText: "Okay",
+            type: "success",
+            duration: 3000
           });
-      });
+          this.props.navigation.goBack();
+          return;
+        })
+        .catch(err => {
+          console.log(err);
+          Toast.show({
+            text: "Error in create room",
+            buttonText: "Close",
+            type: "danger",
+            duration: 3000
+          });
+          // reject(err);
+        });
     });
+    // });
   };
 
   render() {
@@ -302,7 +315,15 @@ class FormScreen extends Component {
     const roomCode = (
       <CardItem>
         <Item regular>
-          <Input placeholder="Enter room code" />
+          <Input
+            placeholder="Enter room code"
+            value={this.state.isPrivate ? roomCode : null}
+            onChange={e => {
+              this.setState({
+                roomCode: e.nativeEvent.text
+              });
+            }}
+          />
         </Item>
       </CardItem>
     );

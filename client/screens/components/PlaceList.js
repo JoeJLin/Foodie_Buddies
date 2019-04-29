@@ -61,8 +61,8 @@ class PlaceList extends Component {
               style={{ fontSize: 16, color: "black" }}
               // data={this.props.dataList.id}
               onPress={() => {
-                console.log("console log!!!!!!!!!!! ", this.props.dataList.id);
-                console.log(this.props.navigation);
+                // console.log("console log!!!!!!!!!!! ", this.props.dataList.id);
+                // console.log(this.props.navigation);
                 this.props.navigation.navigate("Detail", {
                   itemId: this.props.dataList.id,
                   goBackKey: this.props.navigation.state.key,

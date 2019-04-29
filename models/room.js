@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const RoomSchema = mongoose.Schema({
+let RoomSchema = mongoose.Schema({
   name: {
     type: String
   },
@@ -30,8 +30,27 @@ const RoomSchema = mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now
+  },
+  isPast: {
+    type: Boolean,
+    default: false
+  },
+  location: {
+    type: { type: String, default: "Point", enum: ["Point"] },
+    coordinates: []
+    // index: "2dsphere"
   }
+  // latitude: {
+  //   type: Number
+  // },
+  // longitude: {
+  //   type: Number
+  // }
 });
-
+RoomSchema.index({ location: "2dsphere" });
 const Room = mongoose.model("Room", RoomSchema);
 module.exports = Room;
