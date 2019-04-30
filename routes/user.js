@@ -24,11 +24,39 @@ router.post("/", (req, res) => {
       res.send(err);
     });
 });
-router.post("/picture",(req, res)=>{
-  let photoUrl =req.body.photoUrl;
-})
+
+router.post("/picture", (req, res) => {
+  let photoUrl = req.body.photoUrl;
+});
+
 router.get("/getUser", (req, res) => {
-  console.log(req.query.userId);
+  let userId = req.query.userId;
+  utils
+    .getUserInfo(userId)
+    .then(user => {
+      // console.log(user)
+      res.send(user);
+      return;
+    })
+    .catch(err => {
+      res.send(err);
+    });
+});
+
+router.post("/addRoom", (req, res) => {
+  let roomId = req.body.roomId;
+  let userId = req.body.userId;
+  console.log(roomId, userId);
+  utils
+    .addRoom(roomId, userId)
+    .then(result => {
+      res.send(result);
+      return;
+    })
+    .catch(err => {
+      console.log(err);
+      res.send(err);
+    });
 });
 
 module.exports = router;

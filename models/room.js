@@ -5,7 +5,7 @@ let RoomSchema = mongoose.Schema({
   name: {
     type: String
   },
-  host: {
+  hostId: {
     type: String
   },
   description: {

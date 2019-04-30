@@ -102,8 +102,6 @@ class SearchYelpPage extends Component {
             })}
           </List>
         </Content>
-
-        {/* <List></List> */}
       </Container>
     );
   }
