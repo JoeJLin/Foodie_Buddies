@@ -8,18 +8,18 @@ const getAllRooms = (latitude, longitude) => {
     console.log(latitude, longitude);
     console.log("in get all room");
     Room.find({
-        // isPast: false,
-        location: {
-          $near: {
-            $maxDistance: 100,
-            // $minDistance: 100,
-            $geometry: {
-              type: "Point",
-              coordinates: [longitude, latitude]
-            }
+      isPast: false,
+      location: {
+        $nearSphere: {
+          // $maxDistance: 5000,
+          $minDistance: 10,
+          $geometry: {
+            type: "Point",
+            coordinates: [longitude, latitude]
           }
         }
-      })
+      }
+    })
       // .limit(20)
       .then(results => {
         // console.log(results);
