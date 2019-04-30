@@ -17,6 +17,7 @@ router.post("/create", (req, res) => {
   let roomCode = req.body.roomCode;
   let name = req.body.name;
   let formatDate = new Date(`${date} ${time}`);
+  console.log("in create room!!!!!!!!!!!!!!!!!!");
   utils
     .getBusinessById(placeId)
     .then(place => {
@@ -32,9 +33,10 @@ router.post("/create", (req, res) => {
         isPrivate,
         roomCode,
         location: {
+          type: "Point",
           coordinates: [
-            place.jsonBody.coordinates.latitude,
-            place.jsonBody.coordinates.longitude
+            place.jsonBody.coordinates.longitude,
+            place.jsonBody.coordinates.latitude
           ]
         }
         // latitude: place.jsonBody.coordinates.latitude,
