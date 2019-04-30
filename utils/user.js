@@ -30,6 +30,7 @@ const checkAndCreateUser = (userId, email, familyName, givenName, photoUrl) => {
 
 const getUserInfo = userId => {
   return new Promise((resolve, reject) => {
+    console.log(userId);
     User.findOne({ userId })
       .then(user => {
         resolve(user);
@@ -42,7 +43,23 @@ const getUserInfo = userId => {
   });
 };
 
+const addRoom = (roomId, userId) => {
+  return new Promise((resolve, reject) => {
+    User.findOneAndUpdate({ userId }, { $push: { roomList: roomId } })
+      .then(result => {
+        console.log(result);
+        resolve(result);
+        return;
+      })
+      .catch(err => {
+        console.log(err);
+        reject(err);
+      });
+  });
+};
+
 module.exports = {
   checkAndCreateUser,
-  getUserInfo
+  getUserInfo,
+  addRoom
 };

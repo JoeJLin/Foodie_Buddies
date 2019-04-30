@@ -514,7 +514,7 @@ const styles = StyleSheet.create({
     //alignItems: "center",
   },
   mb: {
-    marginBottom: 0
+    padding: 0
   }
 });
 const pickerSelectStyles = StyleSheet.create({

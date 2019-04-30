@@ -25,6 +25,7 @@ import NavigationScreen from "./screens/NavigationScreen";
 import DetailPage from "./screens/DetailPage";
 import NameScreen from "./screens/NameScreen";
 import AddressScreen from "./screens/AddressScreen";
+import RoomDetailScreen from "./screens/RoomDetailScreen";
 /**
  *  AppSwitchNavigator
  *    -Welcome Screen
@@ -62,9 +63,10 @@ const AppStackNavigator = createStackNavigator({
   Calender: { screen: CalenderScreen },
   SearchYelpPage: { screen: SearchYelpPage },
   Detail: { screen: DetailPage },
-  ProfileScreen:{ screen: ProfileScreen},
-  NameScreen: {screen: NameScreen},
-  AddressScreen: {screen: AddressScreen},
+  RoomDetail: { screen: RoomDetailScreen },
+  ProfileScreen: { screen: ProfileScreen },
+  NameScreen: { screen: NameScreen },
+  AddressScreen: { screen: AddressScreen }
 });
 
 const AppSwitchNavigator = createSwitchNavigator(

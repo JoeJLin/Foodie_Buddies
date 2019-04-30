@@ -22,7 +22,7 @@ router.post("/create", (req, res) => {
     .then(place => {
       console.log(place);
       let room = new Room({
-        host: hostId,
+        hostId,
         description,
         // members,
         size,
@@ -63,6 +63,7 @@ router.get("/", (req, res) => {
   utils
     .getAllRooms(latitude, longitude)
     .then(result => {
+      // console.log("in result sending", result);
       res.send(result);
     })
     .catch(err => {
