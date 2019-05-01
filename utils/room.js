@@ -54,7 +54,7 @@ const getRoomInfo = room => {
     ];
     Promise.all(promises)
       .then(result => {
-        console.log("in single room", result);
+        // console.log("in single room", result);
         let roomInfo = {};
         roomInfo["room"] = {
           id: room._id,
@@ -68,6 +68,7 @@ const getRoomInfo = room => {
           date: formatDate(room.date),
           time: formatAmPm(room.date)
         };
+        console.log("given name", result[0].givenName);
         roomInfo["host"] = {
           name: result[0].givenName + " " + result[0].familyName,
           photoUrl: result[0].photoUrl,

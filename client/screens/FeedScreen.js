@@ -43,7 +43,7 @@ class Feed extends React.Component {
         )
         .then(places => {
           console.log("in placesss");
-          console.log("place", places.data);
+          // console.log("place", places.data);
           this.setState({ data: places.data });
         })
         .catch(err => {
