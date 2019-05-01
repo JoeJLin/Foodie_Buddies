@@ -3,7 +3,8 @@ const User = require("../models/user");
 const checkAndCreateUser = (userId, email, familyName, givenName, photoUrl) => {
   return new Promise((resolve, reject) => {
     User.findOne({ userId }).then(result => {
-      if (!result) {
+      console.log("search result!!!: ", result);
+      if (result === null) {
         const user = new User({
           email,
           familyName,
@@ -21,9 +22,10 @@ const checkAndCreateUser = (userId, email, familyName, givenName, photoUrl) => {
           resolve({ createUser: true });
         });
         // res.send(result);
+      } else {
+        resolve({ UserExits: true });
+        console.log("already in our database");
       }
-      resolve({ UserExits: true });
-      console.log("already in our database");
     });
   });
 };

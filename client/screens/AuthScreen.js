@@ -25,10 +25,15 @@ export default class AuthScreen extends React.Component {
       });
       console.log(result);
       if (result.type === "success") {
-        await AsyncStorage.setItem("userId", result.user.id);
-        console.log(result.user.id);
-        this.registerUser(result.user);
-        this.props.navigation.navigate("Home");
+        AsyncStorage.setItem("userId", result.user.id, (err, response) => {
+          if (err) {
+            console.log("error in setItem userId", err);
+            return;
+          }
+          console.log("user id from google!!!!", result.user.id);
+          this.registerUser(result.user);
+          this.props.navigation.navigate("Home");
+        });
       } else {
         console.log("cancelled");
       }
@@ -38,6 +43,7 @@ export default class AuthScreen extends React.Component {
   };
 
   registerUser = async user => {
+    console.log("user!!!!!", user);
     axios
       .post(API_PATH + "/user", {
         email: user.email,

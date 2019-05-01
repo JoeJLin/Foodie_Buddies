@@ -11,7 +11,7 @@ const getAllRooms = (latitude, longitude) => {
       isPast: false,
       location: {
         $nearSphere: {
-          // $maxDistance: 5000,
+          $maxDistance: 5000,
           $minDistance: 10,
           $geometry: {
             type: "Point",
@@ -68,7 +68,7 @@ const getRoomInfo = room => {
           date: formatDate(room.date),
           time: formatAmPm(room.date)
         };
-        console.log("given name", result[0].givenName);
+
         roomInfo["host"] = {
           name: result[0].givenName + " " + result[0].familyName,
           photoUrl: result[0].photoUrl,
@@ -105,12 +105,12 @@ const getAllRoomsInfo = rooms => {
   return new Promise((resolve, reject) => {
     let promise = [];
     for (ele in rooms) {
-      console.log("this is aaaa", rooms[ele]);
+      // console.log("this is aaaa", rooms[ele]);
       promise.push(getRoomInfo(rooms[ele]));
     }
     Promise.all(promise)
       .then(allData => {
-        console.log(allData);
+        // console.log(allData);
         resolve(allData);
         return;
       })
