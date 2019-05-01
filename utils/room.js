@@ -24,9 +24,7 @@ const getAllRooms = (latitude, longitude) => {
       .then(results => {
         // console.log(results);
         if (results.length === 0) {
-          reject({
-            err: "No locations found!"
-          });
+          reject("No locations found!");
           return;
         }
         getAllRoomsInfo(results)
