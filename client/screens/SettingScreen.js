@@ -29,13 +29,18 @@ class Setting extends React.Component {
     this.state = {
       userId: "",
       image: null,
-      userName: "UnKnow"
+      userName: "unKnown"
     };
   }
   async componentDidMount() {
-    const userId = await AsyncStorage.getItem("userId");
-    this.setState({ userId });
-    console.log("userId", userId);
+    AsyncStorage.getItem("userId", (err, userId) => {
+      if (err) {
+        console.log("error in get userId key", err);
+        return;
+      }
+      this.setState({ userId });
+      console.log("userId", userId);
+    });
   }
   signOut = async () => {
     await AsyncStorage.removeItem("userId", (err, result) => {
