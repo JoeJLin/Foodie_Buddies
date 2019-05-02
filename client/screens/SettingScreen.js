@@ -73,7 +73,7 @@ class Setting extends React.Component {
 
   render() {
     const { navigation } = this.props;
-   
+    const userName =this.state.firstName + " " +this.state.lastName;
     return (
       <Container>
         <Header style={styles.container}>
@@ -84,15 +84,14 @@ class Setting extends React.Component {
                 uri: this.state.image
               }}
               style={{
-                width: 100,
-                height: 100
+                width: 80,
+                height: 80,
+                alignSelf:'center',
               }}
             />
           </Left>
           <Body style={styles.body}>
-            <Text style={{ fontSize: 24 }}>{this.state.firstName} {this.state.lastName}</Text>
-
-            <Text style={{ paddingTop: 10 }}>UserId:{this.state.userId}</Text>
+            <Text style={{ fontSize: 24 ,alignSelf:'auto'}}>{userName}</Text>
           </Body>
           <Right>
             <TouchableOpacity
@@ -168,18 +167,18 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     //flex:1,
     //justifyContent:'center'
-    height: 120
+    height: 130
   },
   icon: {
     paddingBottom: 40,
-    paddingLeft: 10
+    paddingLeft: 10,
   },
   body: {
     flex: 1,
     flexDirection: "column",
     flexGrow: 1,
     //justifyContent: 'flex-start',
-    paddingBottom: 40
+    paddingBottom: 40,
   },
   middle: {
     //flex: 1,
