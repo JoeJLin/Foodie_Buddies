@@ -14,6 +14,7 @@ import {
   Spinner
 } from "native-base";
 import NavigationScreen from "./NavigationScreen";
+import HomeSearchBar from "./components/HomeSearchBar";
 import Room from "./components/Room";
 import axios from "axios";
 import { API_PATH } from "../config/keys";
@@ -23,7 +24,10 @@ class Feed extends React.Component {
   constructor() {
     super();
     this.state = {
-      data: []
+      data: [],
+      keyword: null,
+      latitude: null,
+      longitude: null
     };
   }
 
@@ -33,6 +37,10 @@ class Feed extends React.Component {
         console.log(err);
         return;
       }
+      this.setState({
+        latitude: parseFloat(results[0][1]),
+        longitude: parseFloat(results[1][1])
+      });
       // console.log(results);
       console.log("in  adsfasdf");
       axios
@@ -52,6 +60,28 @@ class Feed extends React.Component {
     });
   }
 
+  handleChange = name => event => {
+    this.setState(
+      { [name]: event.nativeEvent.text }
+      // this.yelpApi(this.state.term)
+    );
+  };
+
+  submitSearch = () => {
+    console.log("submit search");
+    console.log(this.state.latitude, this.state.longitude);
+    console.log(this.state.keyword);
+    axios
+      .get(`${API_PATH}/room/name?name=${this.state.keyword}`)
+      .then(place => {
+        // console.log("in pplace !!!!!!!!!!!!!!!!!!!", place);
+        this.setState({ data: [place.data] });
+      })
+      .catch(err => {
+        console.log("err is ", err);
+      });
+  };
+
   render() {
     const { navigate } = this.props.navigation;
     const list = (
@@ -63,6 +93,14 @@ class Feed extends React.Component {
     );
     return (
       <Container>
+        <HomeSearchBar
+          submit={() => {
+            this.submitSearch();
+          }}
+          keyword={this.state.keyword}
+          handleChange={event => this.handleChange(event)}
+        />
+
         <NavigationScreen />
         {this.state.data.length !== 0 ? list : <Spinner color="blue" />}
         <Button

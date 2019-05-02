@@ -21,7 +21,7 @@ router.post("/create", (req, res) => {
   utils
     .getBusinessById(placeId)
     .then(place => {
-      console.log(place);
+      // console.log(place);
       let room = new Room({
         hostId,
         description,
@@ -48,7 +48,7 @@ router.post("/create", (req, res) => {
           res.send(err);
           return;
         }
-        console.log(result);
+        // console.log(result);
         res.send(result);
       });
     })
@@ -59,8 +59,8 @@ router.post("/create", (req, res) => {
 
 router.get("/", (req, res) => {
   // Room.createIndex({ point: "2dsphere" });
-  let latitude = parseFloat(req.query.latitude);
-  let longitude = parseFloat(req.query.longitude);
+  let latitude = req.query.latitude;
+  let longitude = req.query.longitude;
   console.log(req.query);
   utils
     .getAllRooms(latitude, longitude)
@@ -70,7 +70,25 @@ router.get("/", (req, res) => {
     })
     .catch(err => {
       console.log(err);
-      res.error(err);
+      res.status(400).send(err);
+    });
+});
+
+router.get("/name", (req, res) => {
+  console.log(req.query);
+  let name = req.query.name;
+
+  utils
+    .getRoomByName(name)
+    .then(result => {
+      res.send(result);
+      return;
+    })
+    .catch(err => {
+      console.log("error is ", err);
+
+      res.status(400).send(err);
+      return;
     });
 });
 

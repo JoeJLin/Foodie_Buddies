@@ -50,7 +50,8 @@ const AppTabNavigator = createBottomTabNavigator(
     navigationOptions: ({ navigation }) => {
       const { routeName } = navigation.state.routes[navigation.state.index];
       return {
-        headerTitle: routeName
+        headerTitle: routeName,
+        header: null
       };
     }
   }

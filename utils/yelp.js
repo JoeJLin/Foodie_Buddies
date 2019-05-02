@@ -7,7 +7,7 @@ const getBusinessById = id => {
     client
       .business(id)
       .then(response => {
-        console.log(response);
+        // console.log(response);
         resolve(response);
       })
       .catch(err => {
