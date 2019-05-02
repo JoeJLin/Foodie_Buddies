@@ -18,12 +18,15 @@ class ProfileScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      data:[],
       userId: "",
       image: null,
       UserName:""
     };
     
   }
+  
+  
   createFormData = (image, body) => {
     const data = new FormData();
   

@@ -10,6 +10,8 @@ import {
   TouchableOpacity
 } from "react-native";
 import { ImagePicker } from "expo";
+import axios from "axios";
+import { API_PATH } from "../config/keys";
 import {
   Container,
   Header,
@@ -28,8 +30,9 @@ class Setting extends React.Component {
     super(props);
     this.state = {
       userId: "",
-      image: null,
-      userName: "unKnown"
+      image: "",
+      firstName: "unKnown",
+      lastName:''
     };
   }
   async componentDidMount() {
@@ -40,8 +43,22 @@ class Setting extends React.Component {
       }
       this.setState({ userId });
       console.log("userId", userId);
+      axios
+    .get(`${API_PATH}/user/getUser?userId=${userId}`)
+    .then(response => {
+      console.log(response.data)
+      this.setState({
+        firstName:response.data.givenName,
+        lastName:response.data.familyName,
+        image:response.data.photoUrl
+      });
+    })
+    .catch(err => {
+      console.log(err);
     });
-  }
+    });
+
+}
   signOut = async () => {
     await AsyncStorage.removeItem("userId", (err, result) => {
       if (err) {
@@ -55,10 +72,8 @@ class Setting extends React.Component {
   };
 
   render() {
-    let { image } = this.state;
     const { navigation } = this.props;
-    let default_uri =
-      "https://images.pexels.com/photos/42415/pexels-photo-42415.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260";
+   
     return (
       <Container>
         <Header style={styles.container}>
@@ -66,7 +81,7 @@ class Setting extends React.Component {
             <Thumbnail
               large
               source={{
-                uri: default_uri
+                uri: this.state.image
               }}
               style={{
                 width: 100,
@@ -75,7 +90,7 @@ class Setting extends React.Component {
             />
           </Left>
           <Body style={styles.body}>
-            <Text style={{ fontSize: 24 }}>{this.state.userName}</Text>
+            <Text style={{ fontSize: 24 }}>{this.state.firstName} {this.state.lastName}</Text>
 
             <Text style={{ paddingTop: 10 }}>UserId:{this.state.userId}</Text>
           </Body>
