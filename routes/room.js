@@ -21,7 +21,7 @@ router.post("/create", (req, res) => {
   utils
     .getBusinessById(placeId)
     .then(place => {
-      console.log(place);
+      // console.log(place);
       let room = new Room({
         hostId,
         description,
@@ -48,7 +48,7 @@ router.post("/create", (req, res) => {
           res.send(err);
           return;
         }
-        console.log(result);
+        // console.log(result);
         res.send(result);
       });
     })
@@ -70,22 +70,24 @@ router.get("/", (req, res) => {
     })
     .catch(err => {
       console.log(err);
-      res.error(err);
+      res.status(400).send(err);
     });
 });
 
 router.get("/name", (req, res) => {
   console.log(req.query);
-  let keyword = req.query.keyword;
+  let name = req.query.name;
 
   utils
-    .getRoomByName(keyword)
+    .getRoomByName(name)
     .then(result => {
       res.send(result);
       return;
     })
     .catch(err => {
-      res.error(err);
+      console.log("error is ", err);
+
+      res.status(400).send(err);
       return;
     });
 });

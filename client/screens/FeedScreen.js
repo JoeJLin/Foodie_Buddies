@@ -61,8 +61,6 @@ class Feed extends React.Component {
   }
 
   handleChange = name => event => {
-    console.log(event.nativeEvent.text);
-    console.log("this should be keyword", name);
     this.setState(
       { [name]: event.nativeEvent.text }
       // this.yelpApi(this.state.term)
@@ -74,13 +72,13 @@ class Feed extends React.Component {
     console.log(this.state.latitude, this.state.longitude);
     console.log(this.state.keyword);
     axios
-      .get(`${API_PATH}/room?name=${this.state.keyword}`)
+      .get(`${API_PATH}/room/name?name=${this.state.keyword}`)
       .then(place => {
-        console.log(place);
-        this.setState({ data: place });
+        // console.log("in pplace !!!!!!!!!!!!!!!!!!!", place);
+        this.setState({ data: [place.data] });
       })
       .catch(err => {
-        console.log(err);
+        console.log("err is ", err);
       });
   };
 

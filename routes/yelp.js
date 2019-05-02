@@ -25,7 +25,7 @@ router.get("/detail", (req, res) => {
   client
     .business(req.query.id)
     .then(response => {
-      console.log(response);
+      // console.log(response);
       res.send(response);
     })
     .catch(err => {

@@ -121,11 +121,18 @@ const getAllRoomsInfo = rooms => {
   });
 };
 
-const getRoomByName = keyword => {
+const getRoomByName = name => {
   return new Promise((resolve, reject) => {
-    Room.findOne({ name: keyword, isPast: false })
+    console.log("in search room by name function", name);
+    Room.findOne({ name, isPast: false })
       .then(response => {
-        return getRoomInfo(response);
+        console.log("response", response);
+        if (response === null) {
+          reject("No such room!!");
+          return;
+        } else {
+          return getRoomInfo(response);
+        }
       })
       .then(result => {
         resolve(result);
