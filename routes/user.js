@@ -30,11 +30,14 @@ router.post("/picture", (req, res) => {
 });
 
 router.get("/getUser", (req, res) => {
+
   let userId = req.query.userId;
+  console.log("reached")
+console.log(userId)
   utils
     .getUserInfo(userId)
     .then(user => {
-      // console.log(user)
+       //console.log(user)
       res.send(user);
       return;
     })
