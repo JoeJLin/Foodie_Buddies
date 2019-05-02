@@ -121,6 +121,31 @@ const getAllRoomsInfo = rooms => {
   });
 };
 
+const getRoomByName = name => {
+  return new Promise((resolve, reject) => {
+    console.log("in search room by name function", name);
+    Room.findOne({ name, isPast: false })
+      .then(response => {
+        console.log("response", response);
+        if (response === null) {
+          reject("No such room!!");
+          return;
+        } else {
+          return getRoomInfo(response);
+        }
+      })
+      .then(result => {
+        resolve(result);
+        return;
+      })
+      .catch(err => {
+        reject(err);
+        return;
+      });
+  });
+};
+
 module.exports = {
-  getAllRooms
+  getAllRooms,
+  getRoomByName
 };
