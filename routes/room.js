@@ -59,8 +59,8 @@ router.post("/create", (req, res) => {
 
 router.get("/", (req, res) => {
   // Room.createIndex({ point: "2dsphere" });
-  let latitude = parseFloat(req.query.latitude);
-  let longitude = parseFloat(req.query.longitude);
+  let latitude = req.query.latitude;
+  let longitude = req.query.longitude;
   console.log(req.query);
   utils
     .getAllRooms(latitude, longitude)
@@ -71,6 +71,22 @@ router.get("/", (req, res) => {
     .catch(err => {
       console.log(err);
       res.error(err);
+    });
+});
+
+router.get("/name", (req, res) => {
+  console.log(req.query);
+  let keyword = req.query.keyword;
+
+  utils
+    .getRoomByName(keyword)
+    .then(result => {
+      res.send(result);
+      return;
+    })
+    .catch(err => {
+      res.error(err);
+      return;
     });
 });
 

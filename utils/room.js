@@ -121,6 +121,24 @@ const getAllRoomsInfo = rooms => {
   });
 };
 
+const getRoomByName = keyword => {
+  return new Promise((resolve, reject) => {
+    Room.findOne({ name: keyword, isPast: false })
+      .then(response => {
+        return getRoomInfo(response);
+      })
+      .then(result => {
+        resolve(result);
+        return;
+      })
+      .catch(err => {
+        reject(err);
+        return;
+      });
+  });
+};
+
 module.exports = {
-  getAllRooms
+  getAllRooms,
+  getRoomByName
 };

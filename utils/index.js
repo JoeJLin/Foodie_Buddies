@@ -9,5 +9,6 @@ module.exports = {
 
   getBusinessById: Yelp.getBusinessById,
 
-  getAllRooms: Room.getAllRooms
+  getAllRooms: Room.getAllRooms,
+  getRoomByName: Room.getRoomByName
 };
