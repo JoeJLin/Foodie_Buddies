@@ -332,7 +332,7 @@ class FormScreen extends Component {
         <Image
           style={{
             width: 100 + "%",
-            height: 250
+            height: 230
           }}
           source={{
             uri:
@@ -341,15 +341,15 @@ class FormScreen extends Component {
           }}
         />
 
-        <Content padder>
+        <Content padder style={{paddingTop:10}}>
           <Card style={styles.mb}>
             <CardItem header bordered>
               <Text>Create room</Text>
             </CardItem>
 
-            <CardItem>
-              <Icon active name="ios-color-filter" style={{ color: "black" }} />
-              <ScrollView keyboardShouldPersistTaps="handled">
+            <CardItem  bordered>
+              <Icon active name="ios-information-circle-outline" style={{ color: "black" }} />
+              
                 <Input
                   placeholder="Name"
                   onChange={e => {
@@ -359,15 +359,9 @@ class FormScreen extends Component {
                   }}
                   value={this.state.name ? this.state.name : null}
                 />
-              </ScrollView>
             </CardItem>
-
-            <CardItem>
-              {/* <Left>
-                <Icon active name="ios-bookmarks" style={{ color: "black" }} />
-              </Left> */}
-              <ScrollView keyboardShouldPersistTaps="handled">
-                <Form style={{ width: "100%" }}>
+            <CardItem bordered>
+            <Form style={{ width: "100%" }}>
                   <Textarea
                     rowSpan={2}
                     bordered
@@ -382,10 +376,8 @@ class FormScreen extends Component {
                     }}
                   />
                 </Form>
-              </ScrollView>
             </CardItem>
-
-            <CardItem>
+            <CardItem  bordered>
               <Left>
                 <Icon active name="ios-people" style={{ color: "black" }} />
                 <ScrollView>
@@ -407,7 +399,7 @@ class FormScreen extends Component {
               </Right>
             </CardItem>
 
-            <CardItem>
+            <CardItem bordered >
               <Left>
                 <Icon active name="ios-calendar" style={{ color: "#3B579D" }} />
                 <TouchableOpacity onPress={this._showDateTimePicker}>
@@ -429,7 +421,7 @@ class FormScreen extends Component {
               </Right>
             </CardItem>
 
-            <CardItem>
+            <CardItem bordered>
               <Left>
                 <Icon active name="ios-time" style={{ color: "#3B579D" }} />
                 <TouchableOpacity onPress={this._showTimePicker}>
@@ -450,7 +442,7 @@ class FormScreen extends Component {
                 <Icon name="arrow-forward" />
               </Right>
             </CardItem>
-            <CardItem>
+            <CardItem bordered>
               <Left>
                 <Icon active name="thumbs-up" style={{ color: "#55ACEE" }} />
                 <TouchableOpacity
@@ -470,7 +462,7 @@ class FormScreen extends Component {
               </Right>
             </CardItem>
 
-            <CardItem>
+            <CardItem bordered>
               <Left>
                 <Icon active name="ios-lock" style={{ color: "black" }} />
                 <ScrollView>
@@ -492,6 +484,7 @@ class FormScreen extends Component {
               </Right>
             </CardItem>
             {this.state.isPrivate ? roomCode : null}
+
           </Card>
           <Button
             info
@@ -509,7 +502,7 @@ class FormScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fffaf0",
+    backgroundColor: "rgba(255,228,181,0.5)",
     justifyContent: "center"
     //alignItems: "center",
   },
