@@ -19,6 +19,8 @@ import Room from "./components/Room";
 import axios from "axios";
 import { API_PATH } from "../config/keys";
 import { AsyncStorage } from "react-native";
+import registerForNotification from "./components/registerForPushNotificationsAsync";
+import { Notifications } from "expo";
 
 class Feed extends React.Component {
   constructor() {
@@ -32,6 +34,18 @@ class Feed extends React.Component {
   }
 
   componentDidMount() {
+    registerForNotification.registerForPushNotificationsAsync();
+    Notifications.addListener(notification => {
+      const {
+        data: { text },
+        origin
+      } = notification;
+
+      if (origin === "received" && text) {
+        Alert.alert("New Push Notification", text, [{ text: "Ok." }]);
+      }
+    });
+
     AsyncStorage.multiGet(["latitude", "longitude"], (err, results) => {
       if (err) {
         console.log(err);
@@ -52,7 +66,9 @@ class Feed extends React.Component {
         .then(places => {
           console.log("in placesss");
           // console.log("place", places.data);
-          this.setState({ data: places.data });
+          this.setState({
+            data: places.data
+          });
         })
         .catch(err => {
           console.log("err", err);
@@ -62,7 +78,9 @@ class Feed extends React.Component {
 
   handleChange = name => event => {
     this.setState(
-      { [name]: event.nativeEvent.text }
+      {
+        [name]: event.nativeEvent.text
+      }
       // this.yelpApi(this.state.term)
     );
   };
@@ -75,7 +93,9 @@ class Feed extends React.Component {
       .get(`${API_PATH}/room/name?name=${this.state.keyword}`)
       .then(place => {
         // console.log("in pplace !!!!!!!!!!!!!!!!!!!", place);
-        this.setState({ data: [place.data] });
+        this.setState({
+          data: [place.data]
+        });
       })
       .catch(err => {
         console.log("err is ", err);
@@ -100,16 +120,23 @@ class Feed extends React.Component {
           keyword={this.state.keyword}
           handleChange={event => this.handleChange(event)}
         />
-
         <NavigationScreen />
         {this.state.data.length !== 0 ? list : <Spinner color="blue" />}
         <Button
           rounded
           info
-          onPress={() => navigate("Form", { name: "form" })}
-          style={{ position: "absolute", top: "87%", right: 20 }}
+          onPress={() =>
+            navigate("Form", {
+              name: "form"
+            })
+          }
+          style={{
+            position: "absolute",
+            top: "87%",
+            right: 20
+          }}
         >
-          <Text>+</Text>
+          <Text> + </Text>
         </Button>
       </Container>
     );
