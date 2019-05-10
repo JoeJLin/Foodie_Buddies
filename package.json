@@ -19,8 +19,11 @@
     "express": "^4.16.4",
     "mongodb": "^3.2.2",
     "mongoose": "^5.4.20",
+    "react-native-button": "^2.4.0",
+    "react-native-dialog-component": "^0.2.17",
     "react-native-easy-grid": "^0.2.1",
     "react-native-image-picker": "^0.28.1",
+    "react-native-modalbox": "^1.7.1",
     "yelp-fusion": "^3.0.0"
   },
   "devDependencies": {

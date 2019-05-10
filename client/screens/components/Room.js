@@ -6,7 +6,6 @@ import {
   Card,
   CardItem,
   Thumbnail,
-  Text,
   Button,
   Icon,
   Left,
@@ -15,14 +14,18 @@ import {
   Right
 } from "native-base";
 import { Col, Row, Grid } from "react-native-easy-grid";
-import { StyleSheet, TouchableOpacity,ImageBackground} from "react-native";
+import { StyleSheet, TouchableOpacity,ImageBackground,Text} from "react-native";
 import errorPic from "../../assets/404.png";
 import { withNavigation } from "react-navigation";
-
+import CheckRoom from './CheckRoom';
 
 class Room extends Component {
   constructor() {
     super();
+    this._onPressAdd = this._onPressAdd.bind(this);
+  }
+  _onPressAdd(){
+    this.refs.checkRoom.showAddModal();
   }
   render() {
     console.log(this.props.dataList)
@@ -47,38 +50,46 @@ class Room extends Component {
         <Body>
           <Text style={styles.title}>Event Name: {this.props.dataList.room.name}</Text>
             <Text></Text>
-          
           <Text note style={styles.wording}>
-            <Icon name="ios-flame" style={{ fontSize: 25, color: "red" }} />
-            Rating: {this.props.dataList.place.rating}
+            <Icon name="ios-backspace" style={{ fontSize: 20, color: "orange" }} />{" "}
+           {this.props.dataList.place.categories[0]["alias"]}
+          </Text> 
+          <Text note style={styles.wording}>
+            <Icon name="ios-calendar" style={{ fontSize: 20, color: "black" }} />{" "}
+            {this.props.dataList.room.date}
           </Text>
           <Text note style={styles.wording}>
-          <Icon name="ios-star" style={{ fontSize: 25, color: "orange" }} />
-            Price: {this.props.dataList.place.price}
+          <Icon name="ios-time" style={{ fontSize: 20, color: "black" }} />{" "}
+            {this.props.dataList.room.time}
             </Text>
         </Body>
-        <Right>
-          {this.props.dataList.room.isPrivate ? (
-            <Text>Private</Text>
-          ) : (
-            <Text>Public</Text>
-          )}
+        <Right style={{paddingTop:35}}>
           <Button transparent>
             <Text
               note
               style={{ fontSize: 16, color: "black" }}
               onPress={() => {
-                this.props.navigation.navigate("RoomDetail", {
-                  data: this.props.dataList,
-                  goBackKey: this.props.navigation.state.key
-                });
+                {this.props.dataList.room.isPrivate ? (
+                  this._onPressAdd()
+                ) : (
+                  this.props.navigation.navigate("RoomDetail", {
+                    data: this.props.dataList,
+                    goBackKey: this.props.navigation.state.key
+                  })
+                )}
               }}
             >
-              View
+            More
             </Text>
+            <Icon name="ios-arrow-forward" style={{ fontSize: 25, color: "black" }} />
           </Button>
+
+
         </Right>
+        <CheckRoom ref={'checkRoom'} rightCode={this.props.dataList.roomCode}>
+        </CheckRoom> 
       </ListItem>
+
       
     );
   }
@@ -95,7 +106,9 @@ const styles = StyleSheet.create({
     //height:150
   },
   wording:{
-    fontSize: 16, color: "black" 
+    fontSize: 16, 
+    color: "black",
+    fontFamily: 'Avenir-Book'
   },
   title:{
     paddingTop:10,
