@@ -13,7 +13,7 @@ export default class CheckRoom extends Component{
     construtor(props){
         //super(props);
         this.state={
-            roomCode:" "
+            roomCode:"1"
         };
     }
     showAddModal=()=>{
@@ -74,6 +74,10 @@ export default class CheckRoom extends Component{
                 backgroundColor:'#ffd700'
             }}
             onPress={() => {
+                if(this.state.roomCode.length==1){
+                    this.setState({roomCode:'2'})
+                    alert("here")
+                }
                 {this.props.rightCode == this.state.roomCode ? (
                     //alert("Matched")
                     this.props._CallOn()
