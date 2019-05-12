@@ -64,7 +64,8 @@ const getRoomInfo = room => {
           size: room.size,
           isPrivate: room.isPrivate,
           date: formatDate(room.date),
-          time: formatAmPm(room.date)
+          time: formatAmPm(room.date),
+          roomCode: room.roomCode
         };
 
         roomInfo["host"] = {
