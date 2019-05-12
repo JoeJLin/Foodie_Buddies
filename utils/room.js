@@ -18,7 +18,11 @@ const getAllRooms = (latitude, longitude) => {
         }
       }
     })
-      // .limit(20)
+      .populate("members") // .limit(20)
+      // .exec(function(err, data) {
+      //   //do stuff
+      //   console.log("dasf!!!!!!", data);
+      // });
       .then(results => {
         // console.log(results);
         if (results.length === 0) {
@@ -50,6 +54,7 @@ const getRoomInfo = room => {
       UserFunc.getUserInfo(room.hostId)
       // YelpFunc.getBusinessById(room.placeId)
     ];
+    // console.log("see seee room ", room.members);
     Promise.all(promises)
       .then(result => {
         // console.log("in single room", result);
@@ -143,7 +148,43 @@ const getRoomByName = name => {
   });
 };
 
+const getRoomById = roomId => {
+  return new Promise((resolve, reject) => {
+    Room.findOne({ _id: roomId, isPast: false })
+      .populate("members")
+      .then(room => {
+        resolve(room);
+        return;
+      })
+      .catch(err => {
+        reject(err);
+        return;
+      });
+  });
+};
+
+const addMemberToRoom = (memberId, roomId) => {
+  return new Promise((resolve, reject) => {
+    Room.findOneAndUpdate(
+      { _id: roomId },
+      { $push: { members: memberId }, $inc: { size: -1 } }
+      // { $inc: { size: -1 } }
+    )
+      .then(room => {
+        resolve(room);
+        return;
+      })
+      .catch(err => {
+        reject(err);
+        return;
+      });
+  });
+};
+
 module.exports = {
   getAllRooms,
-  getRoomByName
+  getRoomByName,
+  getRoomById,
+  getAllRoomsInfo,
+  addMemberToRoom
 };

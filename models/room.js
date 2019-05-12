@@ -11,7 +11,13 @@ let RoomSchema = mongoose.Schema({
   description: {
     type: String
   },
-  members: [{ type: Schema.Types.ObjectId }],
+  members: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      unique: true
+    }
+  ],
   date: {
     type: Date
   },

@@ -20,7 +20,7 @@ router.post("/create", (req, res) => {
   utils
     .getBusinessById(placeId)
     .then(place => {
-      console.log(place);
+      // console.log(place);
       let room = new Room({
         hostId,
         description,
@@ -52,12 +52,20 @@ router.post("/create", (req, res) => {
       });
       room.save((err, result) => {
         if (err) {
-          console.log(err);
           res.send(err);
           return;
         }
         // console.log(result);
-        res.send(result);
+        // console.log("i am here  !!!!!", result);
+        utils
+          .addHostRoom(result._id, hostId)
+          .then(data => {
+            // console.log(data);
+            res.send(result);
+          })
+          .catch(err => {
+            console.log(err);
+          });
       });
     })
     .catch(err => {
@@ -96,6 +104,47 @@ router.get("/name", (req, res) => {
       res.status(400).send(err);
       return;
     });
+});
+
+router.get("/getRoomList", (req, res) => {
+  let userId = req.query.userId;
+  console.log("in backend");
+  utils.getUserInfo(userId).then(user => {
+    let promises = [];
+    console.log(user);
+    console.log(user.hasOwnProperty("roomList"));
+    // if (user.hasOwnProperty("roomList")) {
+    if (!user.roomList) {
+      console.log("cjos");
+      res.status(400).send({ emptyList: true });
+      return;
+    }
+    for (ele in user.roomList) {
+      console.log(user.roomList[ele]);
+      promises.push(utils.getRoomById(user.roomList[ele]));
+    }
+    Promise.all(promises)
+      .then(results => {
+        utils
+          .getAllRoomsInfo(results)
+          .then(data => {
+            // console.log(data);
+            res.send(data);
+          })
+          .catch(err => {
+            console.log(err);
+            res.status(400).send(err);
+          });
+
+        // console.log("results !!!!!!!!!!", results);
+        // res.send("ok");
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(400).send(err);
+      });
+    // }
+  });
 });
 
 module.exports = router;
