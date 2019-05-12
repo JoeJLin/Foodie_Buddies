@@ -20,7 +20,7 @@ router.post("/create", (req, res) => {
   utils
     .getBusinessById(placeId)
     .then(place => {
-      // console.log(place);
+      console.log(place);
       let room = new Room({
         hostId,
         description,
@@ -37,6 +37,15 @@ router.post("/create", (req, res) => {
             place.jsonBody.coordinates.longitude,
             place.jsonBody.coordinates.latitude
           ]
+        },
+        place: {
+          id: place.jsonBody.id,
+          name: place.jsonBody.name,
+          categories: place.jsonBody.categories,
+          image_url: place.jsonBody.image_url,
+          location: {
+            display_address: place.jsonBody.location.display_address
+          }
         }
         // latitude: place.jsonBody.coordinates.latitude,
         // longitude: place.jsonBody.coordinates.longitude
