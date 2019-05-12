@@ -27,15 +27,12 @@ const UserSchema = mongoose.Schema({
   friendList: [
     {
       type: Schema.Types.ObjectId,
-      ref: "User"
+      ref: "User",
+      unique: true
     }
   ],
-  roomList: {
-    roomId: {
-      type: Schema.Types.ObjectId,
-      ref: "Room"
-    }
-  }
+  roomList: Schema.Types.Mixed,
+  hostRoomList: Schema.Types.Mixed
 });
 
 const User = mongoose.model("User", UserSchema);

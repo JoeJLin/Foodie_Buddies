@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { View, TouchableOpacity, style, ImageBackground } from "react-native";
+import {
+  View,
+  TouchableOpacity,
+  style,
+  ImageBackground,
+  ScrollView
+} from "react-native";
 import {
   Container,
   Header,
@@ -102,11 +108,13 @@ class Feed extends React.Component {
       // source={{uri:"https://images.pexels.com/photos/1640774/pexels-photo-1640774.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"}}
       // style={{width: '100%', height: '100%'}}
       // >
-      <List>
-        {this.state.data.map((item, i) => {
-          return <Room key={i} dataList={item} />;
-        })}
-      </List>
+      <ScrollView>
+        <List>
+          {this.state.data.map((item, i) => {
+            return <Room key={i} dataList={item} />;
+          })}
+        </List>
+      </ScrollView>
       //</ImageBackground>
     );
     return (
