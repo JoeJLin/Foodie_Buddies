@@ -5,7 +5,6 @@ const utils = require("../utils");
 
 //create new user
 router.post("/", (req, res) => {
-  console.log(req.body);
   let email = req.body.email;
   let familyName = req.body.familyName;
   let givenName = req.body.givenName;
@@ -49,7 +48,6 @@ console.log(userId)
 router.post("/addRoom", (req, res) => {
   let roomId = req.body.roomId;
   let userId = req.body.userId;
-  console.log(roomId, userId);
   utils
     .addRoom(roomId, userId)
     .then(result => {

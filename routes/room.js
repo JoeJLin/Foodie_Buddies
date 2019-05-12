@@ -5,7 +5,6 @@ const Room = require("../models/room");
 const utils = require("../utils");
 
 router.post("/create", (req, res) => {
-  console.log(req.body);
   let hostId = req.body.userId;
   let description = req.body.description;
   // let members = req.body.members;
@@ -17,7 +16,7 @@ router.post("/create", (req, res) => {
   let roomCode = req.body.roomCode;
   let name = req.body.name;
   let formatDate = new Date(`${date} ${time}`);
-  console.log("in create room!!!!!!!!!!!!!!!!!!");
+
   utils
     .getBusinessById(placeId)
     .then(place => {
@@ -61,7 +60,6 @@ router.get("/", (req, res) => {
   // Room.createIndex({ point: "2dsphere" });
   let latitude = req.query.latitude;
   let longitude = req.query.longitude;
-  console.log(req.query);
   utils
     .getAllRooms(latitude, longitude)
     .then(result => {
@@ -75,7 +73,6 @@ router.get("/", (req, res) => {
 });
 
 router.get("/name", (req, res) => {
-  console.log(req.query);
   let name = req.query.name;
 
   utils

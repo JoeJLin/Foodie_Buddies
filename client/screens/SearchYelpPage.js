@@ -23,16 +23,13 @@ class SearchYelpPage extends Component {
         console.log(err);
         return;
       }
-      console.log("got the zip code", result);
       location
         ? this.setState({ location: JSON.parse(result) })
         : this.setState({ location: null });
-      console.log(this.state);
     });
   };
 
   handleChange = name => event => {
-    console.log(event.nativeEvent.text);
     this.setState(
       { [name]: event.nativeEvent.text }
       // this.yelpApi(this.state.term)
@@ -76,7 +73,6 @@ class SearchYelpPage extends Component {
 
   submitSearch = event => {
     let { location, term } = this.state;
-    console.log(location, term);
     if (typeof location === "number" && location.length !== 5) {
       console.log("invalid zip code");
     } else {
