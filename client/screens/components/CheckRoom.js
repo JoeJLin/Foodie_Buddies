@@ -7,6 +7,7 @@ import{
 import Modal from 'react-native-modalbox';
 import Button from 'react-native-button';
 
+
 var screen = Dimensions.get('window');
 export default class CheckRoom extends Component{
     construtor(props){
@@ -19,6 +20,8 @@ export default class CheckRoom extends Component{
         this.refs.myModal.open();
     }
     render(){
+        //const { navigation } = this.props; 
+        //console.log(navigate);
         return(
             <Modal
             ref={"myModal"}
@@ -33,7 +36,7 @@ export default class CheckRoom extends Component{
             position='center'
             backdrop={true}
             onClosed={()=>{
-                alert(this.state.roomCode)
+                //alert(this.state.roomCode)
             }}
             >
             <Text style={{
@@ -70,16 +73,17 @@ export default class CheckRoom extends Component{
                 borderRadius:6,
                 backgroundColor:'#ffd700'
             }}
-            onPress={()=>{
-                if(this.state.roomCode.length ==0){
-                    alert("Invalid input")
-                    return;
-                }
-                else{
-                    alert(this.props.rightCode)
-                    this.refs.myModal.close();
-                }
-            }}
+            onPress={() => {
+                {this.props.rightCode == this.state.roomCode ? (
+                    //alert("Matched")
+                    this.props._CallOn()
+                 // this._onPressAdd()
+                ) : (
+                alert("incorred")
+                )}
+                this.refs.myModal.close();
+              }
+            }
             >
                 Submit
             </Button>
