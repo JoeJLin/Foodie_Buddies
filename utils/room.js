@@ -5,8 +5,6 @@ const YelpFunc = require("./yelp");
 
 const getAllRooms = (latitude, longitude) => {
   return new Promise((resolve, reject) => {
-    console.log(latitude, longitude);
-    console.log("in get all room");
     Room.find({
       isPast: false,
       location: {
@@ -123,10 +121,8 @@ const getAllRoomsInfo = rooms => {
 
 const getRoomByName = name => {
   return new Promise((resolve, reject) => {
-    console.log("in search room by name function", name);
     Room.findOne({ name, isPast: false })
       .then(response => {
-        console.log("response", response);
         if (response === null) {
           reject("No such room!!");
           return;

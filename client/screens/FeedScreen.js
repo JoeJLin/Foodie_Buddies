@@ -35,16 +35,16 @@ class Feed extends React.Component {
 
   componentDidMount() {
     registerForNotification.registerForPushNotificationsAsync();
-    Notifications.addListener(notification => {
-      const {
-        data: { text },
-        origin
-      } = notification;
+    // Notifications.addListener(notification => {
+    //   const {
+    //     data: { text },
+    //     origin
+    //   } = notification;
 
-      if (origin === "received" && text) {
-        Alert.alert("New Push Notification", text, [{ text: "Ok." }]);
-      }
-    });
+    //   if (origin === "received" && text) {
+    //     Alert.alert("New Push Notification", text, [{ text: "Ok." }]);
+    //   }
+    // });
 
     AsyncStorage.multiGet(["latitude", "longitude"], (err, results) => {
       if (err) {
@@ -55,8 +55,6 @@ class Feed extends React.Component {
         latitude: parseFloat(results[0][1]),
         longitude: parseFloat(results[1][1])
       });
-      // console.log(results);
-      console.log("in  adsfasdf");
       axios
         .get(
           `${API_PATH}/room?latitude=${results[0][1]}&longitude=${
@@ -64,7 +62,6 @@ class Feed extends React.Component {
           }`
         )
         .then(places => {
-          console.log("in placesss");
           // console.log("place", places.data);
           this.setState({
             data: places.data
@@ -86,13 +83,9 @@ class Feed extends React.Component {
   };
 
   submitSearch = () => {
-    console.log("submit search");
-    console.log(this.state.latitude, this.state.longitude);
-    console.log(this.state.keyword);
     axios
       .get(`${API_PATH}/room/name?name=${this.state.keyword}`)
       .then(place => {
-        // console.log("in pplace !!!!!!!!!!!!!!!!!!!", place);
         this.setState({
           data: [place.data]
         });

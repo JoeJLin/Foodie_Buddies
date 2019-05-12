@@ -37,7 +37,7 @@ class DetailPage extends Component {
     axios
       .get(`${API_PATH}/yelp/detail?id=${itemId}`)
       .then(response => {
-        console.log(response.data);
+        // console.log(response.data);
         this.setState({
           isLoading: false,
           data: {

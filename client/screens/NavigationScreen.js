@@ -18,24 +18,15 @@ class NavigationScreen extends Component {
     this.getLocationAsync();
     navigator.geolocation.getCurrentPosition(
       position => {
-        console.log(position);
         // console.log(position.coords.latitude);
         let latitude = JSON.stringify(position.coords.latitude);
         let longitude = JSON.stringify(position.coords.longitude);
         const url = `http://dev.virtualearth.net/REST/v1/Locations/${latitude},${longitude}?key=${BING_MAP_KEY}`;
-        console.log(url);
         AsyncStorage.setItem("latitude", latitude);
         AsyncStorage.setItem("longitude", longitude);
         axios
           .get(url)
           .then(response => {
-            // AsyncStorage.setItem('zipCode', )
-            console.log("asdfas");
-            // response = JSON.stringify(response);
-            // console.log(response.data.authenticationResultCode);
-            console.log(
-              response.data.resourceSets[0].resources[0].address.postalCode
-            );
             return response.data.resourceSets[0].resources[0].address
               .postalCode;
           })

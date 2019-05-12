@@ -17,15 +17,17 @@ async function registerForPushNotificationsAsync() {
     // install, so this will only ask on iOS
     const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
     finalStatus = status;
+    console.log("status", status);
   }
 
   // Stop here if the user did not grant permissions
   if (finalStatus !== "granted") {
+    console.log("final status", finalStatus);
     return;
   }
 
   // Get the token that uniquely identifies this device
-
+  console.log("im the token: ");
   let token = await Notifications.getExpoPushTokenAsync();
   alert("im the token: ", token);
   // AsyncStorage.getItem("userId", (err, userId) => {

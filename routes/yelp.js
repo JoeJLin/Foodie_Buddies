@@ -21,7 +21,6 @@ router.get("/search", (req, res) => {
 });
 
 router.get("/detail", (req, res) => {
-  console.log(req.query);
   client
     .business(req.query.id)
     .then(response => {

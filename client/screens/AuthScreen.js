@@ -23,14 +23,13 @@ export default class AuthScreen extends React.Component {
         iosClientId: GOOGLE_IOS_CLIENT_KEY,
         scopes: ["profile", "email"]
       });
-      console.log(result);
+      // console.log(result);
       if (result.type === "success") {
         AsyncStorage.setItem("userId", result.user.id, (err, response) => {
           if (err) {
             console.log("error in setItem userId", err);
             return;
           }
-          console.log("user id from google!!!!", result.user.id);
           this.registerUser(result.user);
           this.props.navigation.navigate("Home");
         });
@@ -43,7 +42,6 @@ export default class AuthScreen extends React.Component {
   };
 
   registerUser = async user => {
-    console.log("user!!!!!", user);
     axios
       .post(API_PATH + "/user", {
         email: user.email,
@@ -53,7 +51,7 @@ export default class AuthScreen extends React.Component {
         userId: user.id
       })
       .then(response => {
-        console.log(JSON.stringify(response));
+        // console.log(JSON.stringify(response));
       })
       .catch(err => {
         console.log(JSON.stringify(err));
