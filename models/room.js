@@ -43,13 +43,18 @@ let RoomSchema = mongoose.Schema({
     type: { type: String, default: "Point", enum: ["Point"] },
     coordinates: []
     // index: "2dsphere"
+  },
+  place: {
+    id: {
+      type: String
+    },
+    name: { type: String },
+    categories: [],
+    image_url: { type: String },
+    location: {
+      display_address: []
+    }
   }
-  // latitude: {
-  //   type: Number
-  // },
-  // longitude: {
-  //   type: Number
-  // }
 });
 RoomSchema.index({ location: "2dsphere" });
 const Room = mongoose.model("Room", RoomSchema);

@@ -9,7 +9,7 @@ const getAllRooms = (latitude, longitude) => {
       isPast: false,
       location: {
         $nearSphere: {
-          $maxDistance: 5000,
+          $maxDistance: 50000,
           $minDistance: 10,
           $geometry: {
             type: "Point",
@@ -47,8 +47,8 @@ const getAllRooms = (latitude, longitude) => {
 const getRoomInfo = room => {
   return new Promise((resolve, reject) => {
     let promises = [
-      UserFunc.getUserInfo(room.hostId),
-      YelpFunc.getBusinessById(room.placeId)
+      UserFunc.getUserInfo(room.hostId)
+      // YelpFunc.getBusinessById(room.placeId)
     ];
     Promise.all(promises)
       .then(result => {
@@ -74,7 +74,8 @@ const getRoomInfo = room => {
           email: result[0].email,
           userId: result[0].userId
         };
-        roomInfo["place"] = result[1].jsonBody;
+        // roomInfo["place"] = result[1].jsonBody;
+        roomInfo["place"] = room.place;
         resolve(roomInfo);
       })
       .catch(err => {
