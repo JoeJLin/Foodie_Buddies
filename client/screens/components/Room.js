@@ -23,14 +23,22 @@ class Room extends Component {
   constructor() {
     super();
     this._onPressAdd = this._onPressAdd.bind(this);
+    this._CallOn = this._CallOn.bind(this);
   }
   _onPressAdd(){
     this.refs.checkRoom.showAddModal();
   }
+  _CallOn(){
+    this.props.navigation.navigate("RoomDetail", {
+      data: this.props.dataList,
+      goBackKey: this.props.navigation.state.key
+    })
+  }
   render() {
     console.log(this.props.dataList)
+    //console.log(this.props.navigation);
     return (
-      <ListItem avatar style={{}}>
+      <ListItem avatar style={{}} >
          <Left >
           <Thumbnail
           square
@@ -72,10 +80,7 @@ class Room extends Component {
                 {this.props.dataList.room.isPrivate ? (
                   this._onPressAdd()
                 ) : (
-                  this.props.navigation.navigate("RoomDetail", {
-                    data: this.props.dataList,
-                    goBackKey: this.props.navigation.state.key
-                  })
+                 this._CallOn()
                 )}
               }}
             >
@@ -86,7 +91,10 @@ class Room extends Component {
 
 
         </Right>
-        <CheckRoom ref={'checkRoom'} rightCode={this.props.dataList.roomCode}>
+        <CheckRoom ref={'checkRoom'} rightCode={this.props.dataList.room.roomCode}
+                                      data={this.props.dataList}
+                                      goBackKey={this.props.navigation.state.key}
+                                      _CallOn={this._CallOn}>
         </CheckRoom> 
       </ListItem>
 
