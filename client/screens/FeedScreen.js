@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, TouchableOpacity, style,ImageBackground } from "react-native";
+import { View, TouchableOpacity, style, ImageBackground } from "react-native";
 import {
   Container,
   Header,
@@ -34,7 +34,7 @@ class Feed extends React.Component {
   }
 
   componentDidMount() {
-    registerForNotification.registerForPushNotificationsAsync();
+    // registerForNotification.registerForPushNotificationsAsync();
     // Notifications.addListener(notification => {
     //   const {
     //     data: { text },
@@ -98,11 +98,11 @@ class Feed extends React.Component {
   render() {
     const { navigate } = this.props.navigation;
     const list = (
-      // <ImageBackground 
-      // source={{uri:"https://images.pexels.com/photos/1640774/pexels-photo-1640774.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"}} 
+      // <ImageBackground
+      // source={{uri:"https://images.pexels.com/photos/1640774/pexels-photo-1640774.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"}}
       // style={{width: '100%', height: '100%'}}
       // >
-      <List >
+      <List>
         {this.state.data.map((item, i) => {
           return <Room key={i} dataList={item} />;
         })}
