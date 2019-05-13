@@ -29,14 +29,13 @@ router.post("/picture", (req, res) => {
 });
 
 router.get("/getUser", (req, res) => {
-
   let userId = req.query.userId;
-  console.log("reached")
-console.log(userId)
+  console.log("reached");
+  console.log(userId);
   utils
     .getUserInfo(userId)
     .then(user => {
-       //console.log(user)
+      //console.log(user)
       res.send(user);
       return;
     })
@@ -48,10 +47,16 @@ console.log(userId)
 router.post("/addRoom", (req, res) => {
   let roomId = req.body.roomId;
   let userId = req.body.userId;
+  console.log("in add room");
   utils
     .addRoom(roomId, userId)
     .then(result => {
-      res.send(result);
+      console.log("it should display user ", result);
+      return utils.addMemberToRoom(result._id, roomId);
+    })
+    .then(response => {
+      console.log(response);
+      res.send({ addToRoom: true });
       return;
     })
     .catch(err => {

@@ -44,7 +44,35 @@ const getUserInfo = userId => {
 
 const addRoom = (roomId, userId) => {
   return new Promise((resolve, reject) => {
-    User.findOneAndUpdate({ userId }, { $push: { roomList: roomId } })
+    let options = {};
+    options[`roomList.${roomId}`] = roomId;
+    User.findOneAndUpdate(
+      { userId },
+      { $set: options },
+      { useFindAndModify: false }
+    )
+      .then(result => {
+        resolve(result);
+        return;
+      })
+      .catch(err => {
+        console.log(err);
+        reject(err);
+      });
+  });
+};
+
+const addHostRoom = (roomId, userId) => {
+  return new Promise((resolve, reject) => {
+    let options = {};
+    options[`hostRoomList.${roomId}`] = roomId;
+    // console.log("in options!!!!!!!!!!!!", options);
+    console.log(userId);
+    User.findOneAndUpdate(
+      { userId },
+      { $set: options },
+      { useFindAndModify: false }
+    )
       .then(result => {
         resolve(result);
         return;
@@ -59,5 +87,6 @@ const addRoom = (roomId, userId) => {
 module.exports = {
   checkAndCreateUser,
   getUserInfo,
-  addRoom
+  addRoom,
+  addHostRoom
 };

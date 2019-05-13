@@ -6,9 +6,13 @@ module.exports = {
   checkAndCreateUser: User.checkAndCreateUser,
   getUserInfo: User.getUserInfo,
   addRoom: User.addRoom,
+  addHostRoom: User.addHostRoom,
 
   getBusinessById: Yelp.getBusinessById,
 
   getAllRooms: Room.getAllRooms,
-  getRoomByName: Room.getRoomByName
+  getRoomByName: Room.getRoomByName,
+  getRoomById: Room.getRoomById,
+  getAllRoomsInfo: Room.getAllRoomsInfo,
+  addMemberToRoom: Room.addMemberToRoom
 };
