@@ -31,7 +31,7 @@ export default class CheckRoom extends Component{
                 borderRadius: Platform.OS === 'ios'?30:0,
                 shadowRadius:10,
                 width:screen.width-80,
-                height:280
+                height:160
             }}
             position='center'
             backdrop={true}
@@ -53,7 +53,7 @@ export default class CheckRoom extends Component{
                    borderBottomColor:'gray',
                    marginLeft:30,
                    marginRight:30,
-                   marginTop:20,
+                   marginTop:10,
                    marginBottom:10,
                    borderBottomWidth:1
                }} 
