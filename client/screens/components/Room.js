@@ -40,7 +40,7 @@ class Room extends Component {
     });
   }
   render() {
-    // console.log(this.props.dataList)
+     console.log(this.props.dataList)
     //console.log(this.props.navigation);
     return (
       <ListItem avatar style={{}}>
