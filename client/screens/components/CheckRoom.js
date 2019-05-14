@@ -6,15 +6,12 @@ import{
 
 import Modal from 'react-native-modalbox';
 import Button from 'react-native-button';
-
+import InputBar from "./InputBar";
 
 var screen = Dimensions.get('window');
-export default class CheckRoom extends Component{
-    construtor(props){
-        //super(props);
-        this.state={
-            roomCode:"1"
-        };
+ class CheckRoom extends Component{
+    construtor(){
+        //super();
     }
     showAddModal=()=>{
         this.refs.myModal.open();
@@ -62,7 +59,7 @@ export default class CheckRoom extends Component{
                //value={this.state.roomCode}
                >
             
-            </TextInput>
+            </TextInput>        
             <Button
             style={{fontSize:18,color:'white'}}
             containerStyle={{
@@ -74,10 +71,6 @@ export default class CheckRoom extends Component{
                 backgroundColor:'#ffd700'
             }}
             onPress={() => {
-                if(this.state.roomCode.length==1){
-                    this.setState({roomCode:'2'})
-                    alert("here")
-                }
                 {this.props.rightCode == this.state.roomCode ? (
                     //alert("Matched")
                     this.props._CallOn()
@@ -96,3 +89,4 @@ export default class CheckRoom extends Component{
         )
      }
 }
+export default CheckRoom;

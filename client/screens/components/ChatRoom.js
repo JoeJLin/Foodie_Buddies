@@ -23,7 +23,7 @@ import Button from 'react-native-button';
 import { withNavigation } from "react-navigation";
 
 var screen = Dimensions.get('window');
-class Room extends Component {
+class ChatRoom extends Component {
   constructor() {
     super();
     this.state={
@@ -43,7 +43,7 @@ class Room extends Component {
     });
   }
   render() {
-    // console.log(this.props.dataList);
+     console.log(this.props.dataList)
     //console.log(this.props.navigation);
     return (
       <ListItem avatar style={{}}>
@@ -224,4 +224,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default withNavigation(Room);
+export default withNavigation(ChatRoom);
