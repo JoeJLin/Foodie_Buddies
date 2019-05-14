@@ -100,13 +100,33 @@ class Room extends Component {
                 }
               }}
             >
-              More
+              More {" "}
             </Text>
             <Icon
               name="ios-arrow-forward"
               style={{ fontSize: 25, color: "black" }}
             />
           </Button>
+          <Text style={{
+            paddingTop:20,
+            paddingRight:30
+              }}>
+             {
+               this.props.dataList.room.isPrivate
+               ? (
+                <Icon
+                name="ios-lock"
+                style={{ fontSize: 30, color: "red" }}
+              />
+               ):
+               (
+                <Icon
+                name="ios-unlock"
+                style={{ fontSize: 30, color: "black" }}
+              />
+               )
+             }
+          </Text>
         </Right>
        
         <Modal
