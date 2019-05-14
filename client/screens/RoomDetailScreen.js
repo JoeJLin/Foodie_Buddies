@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { StyleSheet, Image, Dimensions } from "react-native";
 import { withNavigation } from "react-navigation";
 import {
   Container,
@@ -16,17 +17,17 @@ import {
   Spinner,
   List,
   ListItem,
-  Image
 } from "native-base";
 import { AsyncStorage } from "react-native";
 import axios from "axios";
 import { API_PATH } from "../config/keys";
 
+const deviceWidth = Dimensions.get("window").width;
+
 class RoomDetailScreen extends Component {
   constructor() {
     super();
   }
-
   selectRoom = () => {
     const { room, place, host } = this.props.navigation.state.params.data;
     console.log("select this room " + room.id);
@@ -45,51 +46,102 @@ class RoomDetailScreen extends Component {
         });
     });
   };
-
   render() {
     const { room, place, host } = this.props.navigation.state.params.data;
     return (
-      <Container>
-        <Card>
-          <CardItem header>
-            <Thumbnail source={{ uri: place.image_url }} />
+      <Container style={styles.container}>
+        <Content padder>
+          <Card style={styles.mb}>
+            <CardItem bordered>
+              <Left>
+                <Thumbnail 
+                square
+                source={{uri:host.photoUrl}} />
+                <Body>
+                  <Text style={styles.title}>Event's name : {room.name}</Text>
+                  <Text style={styles.title}>Host by: {host.name}</Text>
+                  <Text note >{room.date}</Text>
+                  <Text note >{room.time}</Text>
+                </Body>
+              </Left>
+            </CardItem>
 
-            <Text>
-              Event name: {room.name}
-              {"\n"}
-              Event At: {place.name}
-              {"\n"}
-              Host by: {host.name}
-            </Text>
-          </CardItem>
-          <CardItem>
-            <Body>
-              <Text>
-                Address:{" "}
-                {place.location.display_address[0] +
+            <CardItem bordered>
+              <Body>
+                <Image
+                  style={{
+                    alignSelf: "center",
+                    height: 150,
+                    resizeMode: "cover",
+                    width: deviceWidth / 1.18,
+                    marginVertical: 5
+                  }}
+                  source={{uri:place.image_url}}
+                />
+                <Text></Text>
+                <Text style={styles.text}>
+                  Place: {place.name}
+                </Text >
+                <Text style={styles.text}>
+                  Categories: {place.categories[0]['alias']}
+                </Text>
+                <Text style={styles.text}>
+                  Address: {" "}
+                  {place.location.display_address[0] +
                   place.location.display_address[1]}
-              </Text>
-              <Text>
-                Date: {room.date}
-                {"\n"}
-                Time: {room.time}
-              </Text>
-              <Text>Size: {room.size}</Text>
+                </Text>
+              </Body>
+            </CardItem>
+            <CardItem  style={{ paddingVertical: 0 }} >
+              <Left>
+                <Button transparent>
+                  <Icon name="logo-github" />
+                  <Text>4,923 likes</Text>
+                </Button>
+              </Left>
+
+            </CardItem>
+            <CardItem bordered style={{ paddingVertical: 0 }} >
+            <Left>
+            </Left>
+            <Body style={{alignContent:'flex-start'}}>
+                <Button
+                onPress={() => {
+                  this.selectRoom();
+                }}>
+                <Text>Select</Text>
+              </Button>
             </Body>
-          </CardItem>
-          <CardItem style={{ alignSelf: "center" }}>
-            <Button
-              onPress={() => {
-                this.selectRoom();
-              }}
-            >
-              <Text>Select</Text>
-            </Button>
-          </CardItem>
-        </Card>
+            <Right>
+            </Right>
+              
+            </CardItem>
+          </Card>
+        </Content>
       </Container>
     );
   }
 }
+
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "#f5f5dc"
+  },
+  mb: {
+    marginBottom: 15
+  },
+  text:{
+    paddingTop: 10,
+    alignSelf: "flex-start",
+    fontSize: 16,
+    fontFamily: "Cochin"
+    //fontFamily:"Avenir"
+  },
+  title:{
+    fontSize: 16,
+    fontFamily:"Chalkboard SE"
+  }
+});
 
 export default withNavigation(RoomDetailScreen);

@@ -13,7 +13,7 @@ export default class CheckRoom extends Component{
     construtor(props){
         //super(props);
         this.state={
-            roomCode:" "
+            roomCode:"1"
         };
     }
     showAddModal=()=>{
@@ -31,7 +31,7 @@ export default class CheckRoom extends Component{
                 borderRadius: Platform.OS === 'ios'?30:0,
                 shadowRadius:10,
                 width:screen.width-80,
-                height:280
+                height:160
             }}
             position='center'
             backdrop={true}
@@ -53,7 +53,7 @@ export default class CheckRoom extends Component{
                    borderBottomColor:'gray',
                    marginLeft:30,
                    marginRight:30,
-                   marginTop:20,
+                   marginTop:10,
                    marginBottom:10,
                    borderBottomWidth:1
                }} 
@@ -74,6 +74,10 @@ export default class CheckRoom extends Component{
                 backgroundColor:'#ffd700'
             }}
             onPress={() => {
+                if(this.state.roomCode.length==1){
+                    this.setState({roomCode:'2'})
+                    alert("here")
+                }
                 {this.props.rightCode == this.state.roomCode ? (
                     //alert("Matched")
                     this.props._CallOn()
