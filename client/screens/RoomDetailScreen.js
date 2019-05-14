@@ -16,7 +16,7 @@ import {
   Right,
   Spinner,
   List,
-  ListItem,
+  ListItem
 } from "native-base";
 import { AsyncStorage } from "react-native";
 import axios from "axios";
@@ -27,24 +27,58 @@ const deviceWidth = Dimensions.get("window").width;
 class RoomDetailScreen extends Component {
   constructor() {
     super();
+    this.state = {
+      userId: null,
+      alreadyExists: false
+    };
   }
-  selectRoom = () => {
-    const { room, place, host } = this.props.navigation.state.params.data;
-    console.log("select this room " + room.id);
+
+  componentDidMount() {
     AsyncStorage.getItem("userId", (err, userId) => {
       if (err) {
         console.log(err);
         return;
       }
-      axios
-        .post(`${API_PATH}/user/addRoom`, { roomId: room.id, userId })
-        .then(result => {
-          console.log(result.data);
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      this.setState({ userId });
+      const { room, place, host } = this.props.navigation.state.params.data;
+      if (host.userId === userId) {
+        console.log("host id is ", host.userId);
+        console.log("your user id is ", userId);
+        this.setState({ alreadyExists: true });
+      } else {
+        for (ele in room.members) {
+          if (room.members[ele].userId === userId) {
+            console.log("room member userid is ", room.members[ele].userId);
+            console.log("your user id is ", userId);
+            this.setState({ alreadyExists: true });
+            break;
+          }
+        }
+      }
     });
+  }
+
+  selectRoom = () => {
+    const { room, place, host } = this.props.navigation.state.params.data;
+    console.log("select this room " + room.id);
+    // AsyncStorage.getItem("userId", (err, userId) => {
+    //   if (err) {
+    //     console.log(err);
+    //     return;
+    //   }
+    //   this, setState({ userId });
+    axios
+      .post(`${API_PATH}/user/addRoom`, {
+        roomId: room.id,
+        userId: this.state.userId
+      })
+      .then(result => {
+        console.log(result.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    // });
   };
   render() {
     const { room, place, host } = this.props.navigation.state.params.data;
@@ -54,14 +88,12 @@ class RoomDetailScreen extends Component {
           <Card style={styles.mb}>
             <CardItem bordered>
               <Left>
-                <Thumbnail 
-                square
-                source={{uri:host.photoUrl}} />
+                <Thumbnail square source={{ uri: host.photoUrl }} />
                 <Body>
                   <Text style={styles.title}>Event's name : {room.name}</Text>
                   <Text style={styles.title}>Host by: {host.name}</Text>
-                  <Text note >{room.date}</Text>
-                  <Text note >{room.time}</Text>
+                  <Text note>{room.date}</Text>
+                  <Text note>{room.time}</Text>
                 </Body>
               </Left>
             </CardItem>
@@ -76,45 +108,44 @@ class RoomDetailScreen extends Component {
                     width: deviceWidth / 1.18,
                     marginVertical: 5
                   }}
-                  source={{uri:place.image_url}}
+                  source={{ uri: place.image_url }}
                 />
-                <Text></Text>
+                <Text />
+                <Text style={styles.text}>Place: {place.name}</Text>
                 <Text style={styles.text}>
-                  Place: {place.name}
-                </Text >
-                <Text style={styles.text}>
-                  Categories: {place.categories[0]['alias']}
+                  Categories: {place.categories[0]["alias"]}
                 </Text>
                 <Text style={styles.text}>
-                  Address: {" "}
+                  Address:{" "}
                   {place.location.display_address[0] +
-                  place.location.display_address[1]}
+                    place.location.display_address[1]}
                 </Text>
               </Body>
             </CardItem>
-            <CardItem  style={{ paddingVertical: 0 }} >
+            <CardItem style={{ paddingVertical: 0 }}>
               <Left>
                 <Button transparent>
                   <Icon name="logo-github" />
                   <Text>4,923 likes</Text>
                 </Button>
               </Left>
-
             </CardItem>
-            <CardItem bordered style={{ paddingVertical: 0 }} >
-            <Left>
-            </Left>
-            <Body style={{alignContent:'flex-start'}}>
-                <Button
-                onPress={() => {
-                  this.selectRoom();
-                }}>
-                <Text>Select</Text>
-              </Button>
-            </Body>
-            <Right>
-            </Right>
-              
+            <CardItem bordered style={{ paddingVertical: 0 }}>
+              <Left />
+              <Body style={{ alignContent: "flex-start" }}>
+                {this.state.alreadyExists === true ? (
+                  <Text>You already in this room</Text>
+                ) : (
+                  <Button
+                    onPress={() => {
+                      this.selectRoom();
+                    }}
+                  >
+                    <Text>Select</Text>
+                  </Button>
+                )}
+              </Body>
+              <Right />
             </CardItem>
           </Card>
         </Content>
@@ -123,7 +154,6 @@ class RoomDetailScreen extends Component {
   }
 }
 
-
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#f5f5dc"
@@ -131,16 +161,16 @@ const styles = StyleSheet.create({
   mb: {
     marginBottom: 15
   },
-  text:{
+  text: {
     paddingTop: 10,
     alignSelf: "flex-start",
     fontSize: 16,
     fontFamily: "Cochin"
     //fontFamily:"Avenir"
   },
-  title:{
+  title: {
     fontSize: 16,
-    fontFamily:"Chalkboard SE"
+    fontFamily: "Chalkboard SE"
   }
 });
 
