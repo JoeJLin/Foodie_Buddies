@@ -1,6 +1,18 @@
 import React, { Component } from "react";
-import { AppRegistry, ScrollView, Text, StyleSheet } from "react-native";
-
+import { AppRegistry, ScrollView, StyleSheet } from "react-native";
+import {
+  Container,
+  Header,
+  Title,
+  Content,
+  Button,
+  Left,
+  Right,
+  Body,
+  Text,
+  List,
+  Spinner
+} from "native-base";
 import { API_PATH } from "../config/keys";
 import { AsyncStorage } from "react-native";
 import axios from "axios";
@@ -40,7 +52,9 @@ export default class IosFonts extends Component {
   render() {
     return (
       <ScrollView style={styles.scroller}>
-        <Text>hi</Text>
+         <Text>
+            Hello
+          </Text>
       </ScrollView>
     );
   }

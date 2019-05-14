@@ -6,7 +6,6 @@ import {
   Card,
   CardItem,
   Thumbnail,
-  Button,
   Icon,
   Left,
   Body,
@@ -14,25 +13,29 @@ import {
   Right
 } from "native-base";
 import { Col, Row, Grid } from "react-native-easy-grid";
-import {
-  StyleSheet,
-  TouchableOpacity,
-  ImageBackground,
-  Text
-} from "react-native";
+import{
+  AppRegistry, StyleSheet, Text, View, Image, Alert,
+  Platform, TouchableHighlight, Dimensions, TextInput
+} from 'react-native';
 import errorPic from "../../assets/404.png";
+import Modal from 'react-native-modalbox';
+import Button from 'react-native-button';
 import { withNavigation } from "react-navigation";
-import CheckRoom from "./CheckRoom";
 
+var screen = Dimensions.get('window');
 class Room extends Component {
   constructor() {
     super();
-    this._onPressAdd = this._onPressAdd.bind(this);
+    this.state={
+      Code:" "
+  };
+    this.showAddModal = this.showAddModal.bind(this);
     this._CallOn = this._CallOn.bind(this);
   }
-  _onPressAdd() {
-    this.refs.checkRoom.showAddModal();
-  }
+ 
+  showAddModal=()=>{
+    this.refs.myModal.open();
+ }
   _CallOn() {
     this.props.navigation.navigate("RoomDetail", {
       data: this.props.dataList,
@@ -92,7 +95,7 @@ class Room extends Component {
               onPress={() => {
                 {
                   this.props.dataList.room.isPrivate
-                    ? this._onPressAdd()
+                    ? this.showAddModal()
                     : this._CallOn();
                 }
               }}
@@ -105,13 +108,74 @@ class Room extends Component {
             />
           </Button>
         </Right>
-        <CheckRoom
-          ref={"checkRoom"}
-          rightCode={this.props.dataList.room.roomCode}
-          data={this.props.dataList}
-          goBackKey={this.props.navigation.state.key}
-          _CallOn={this._CallOn}
-        />
+       
+        <Modal
+            ref={"myModal"}
+            style={{
+                justifyContent:'center',
+                backgroundColor:'#fff8dc',
+                borderRadius: Platform.OS === 'ios'?30:0,
+                shadowRadius:10,
+                width:screen.width-80,
+                height:160,
+                //flex:1
+            }}
+            position='center'
+            backdrop={true}
+            onClosed={()=>{
+                //alert(this.state.roomCode)
+            }}
+            >
+            <Text style={{
+                fontSize:16,
+                fontWeight:'bold',
+                textAlign:'center',
+                marginTop:30
+            }}>
+                Enter Room Code
+            </Text>
+            <TextInput
+               style={{
+                   height:40,
+                   borderBottomColor:'gray',
+                   marginLeft:30,
+                   marginRight:30,
+                   marginTop:10,
+                   marginBottom:10,
+                   borderBottomWidth:1
+               }} 
+               onChangeText={(text)=>this.setState({Code:text})}
+               placeholder="Plz enter the room's code"
+               //value={this.state.Code}
+               >
+            
+            </TextInput>        
+            <Button
+            style={{fontSize:18,color:'white'}}
+            containerStyle={{
+                padding:8,
+                marginLeft:70,
+                marginRight:70,
+                height:40,
+                borderRadius:6,
+                backgroundColor:'#ffd700'
+            }}
+            onPress={() => {
+                {this.props.dataList.room.roomCode == this.state.Code ? (
+                    //alert("Matched")
+                    this._CallOn()
+                 // this._onPressAdd()
+                ) : (
+                alert("incorred")
+                )}
+                this.refs.myModal.close();
+              }
+            }
+            >
+                Submit
+            </Button>
+
+            </Modal>
       </ListItem>
     );
   }
