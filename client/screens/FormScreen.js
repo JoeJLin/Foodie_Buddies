@@ -36,10 +36,6 @@ import { API_PATH } from "../config/keys";
 
 const People = [
   {
-    label: "1 person",
-    value: 1
-  },
-  {
     label: "2 people",
     value: 2
   },
@@ -341,43 +337,45 @@ class FormScreen extends Component {
           }}
         />
 
-        <Content padder style={{paddingTop:10}}>
+        <Content padder style={{ paddingTop: 10 }}>
           <Card style={styles.mb}>
             <CardItem header bordered>
               <Text>Create room</Text>
             </CardItem>
 
-            <CardItem  bordered>
-              <Icon active name="ios-information-circle-outline" style={{ color: "black" }} />
-              
-                <Input
-                  placeholder="Name"
-                  onChange={e => {
-                    this.setState({
-                      name: e.nativeEvent.text
-                    });
-                  }}
-                  value={this.state.name ? this.state.name : null}
-                />
+            <CardItem bordered>
+              <Icon
+                active
+                name="ios-information-circle-outline"
+                style={{ color: "black" }}
+              />
+
+              <Input
+                placeholder="Name"
+                onChange={e => {
+                  this.setState({
+                    name: e.nativeEvent.text
+                  });
+                }}
+                value={this.state.name ? this.state.name : null}
+              />
             </CardItem>
             <CardItem bordered>
-            <Form style={{ width: "100%" }}>
-                  <Textarea
-                    rowSpan={2}
-                    bordered
-                    placeholder="Description"
-                    value={
-                      this.state.description ? this.state.description : null
-                    }
-                    onChange={e => {
-                      this.setState({
-                        description: e.nativeEvent.text
-                      });
-                    }}
-                  />
-                </Form>
+              <Form style={{ width: "100%" }}>
+                <Textarea
+                  rowSpan={2}
+                  bordered
+                  placeholder="Description"
+                  value={this.state.description ? this.state.description : null}
+                  onChange={e => {
+                    this.setState({
+                      description: e.nativeEvent.text
+                    });
+                  }}
+                />
+              </Form>
             </CardItem>
-            <CardItem  bordered>
+            <CardItem bordered>
               <Left>
                 <Icon active name="ios-people" style={{ color: "black" }} />
                 <ScrollView>
@@ -399,7 +397,7 @@ class FormScreen extends Component {
               </Right>
             </CardItem>
 
-            <CardItem bordered >
+            <CardItem bordered>
               <Left>
                 <Icon active name="ios-calendar" style={{ color: "#3B579D" }} />
                 <TouchableOpacity onPress={this._showDateTimePicker}>
@@ -484,7 +482,6 @@ class FormScreen extends Component {
               </Right>
             </CardItem>
             {this.state.isPrivate ? roomCode : null}
-
           </Card>
           <Button
             info

@@ -4,7 +4,8 @@ import {
   TouchableOpacity,
   style,
   ImageBackground,
-  ScrollView
+  ScrollView,
+  RefreshControl
 } from "react-native";
 import {
   Container,
@@ -35,7 +36,8 @@ class Feed extends React.Component {
       data: [],
       keyword: null,
       latitude: null,
-      longitude: null
+      longitude: null,
+      refreshing: false
     };
   }
 
@@ -51,7 +53,10 @@ class Feed extends React.Component {
     //     Alert.alert("New Push Notification", text, [{ text: "Ok." }]);
     //   }
     // });
+    this.fetchData();
+  }
 
+  fetchData = () => {
     AsyncStorage.multiGet(["latitude", "longitude"], (err, results) => {
       if (err) {
         console.log(err);
@@ -61,7 +66,7 @@ class Feed extends React.Component {
         latitude: parseFloat(results[0][1]),
         longitude: parseFloat(results[1][1])
       });
-      axios
+      return axios
         .get(
           `${API_PATH}/room?latitude=${results[0][1]}&longitude=${
             results[1][1]
@@ -70,14 +75,23 @@ class Feed extends React.Component {
         .then(places => {
           // console.log("place", places.data);
           this.setState({
-            data: places.data
+            data: places.data,
+            refreshing: false
           });
         })
         .catch(err => {
           console.log("err", err);
         });
     });
-  }
+  };
+
+  _onRefresh = () => {
+    this.setState({ refreshing: true });
+    this.fetchData();
+    // .then(() => {
+    //   this.setState({ refreshing: false });
+    // });
+  };
 
   handleChange = name => event => {
     this.setState(
@@ -108,7 +122,14 @@ class Feed extends React.Component {
       // source={{uri:"https://images.pexels.com/photos/1640774/pexels-photo-1640774.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"}}
       // style={{width: '100%', height: '100%'}}
       // >
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={this.state.refreshing}
+            onRefresh={this._onRefresh}
+          />
+        }
+      >
         <List>
           {this.state.data.map((item, i) => {
             return <Room key={i} dataList={item} />;

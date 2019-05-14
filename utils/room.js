@@ -9,7 +9,7 @@ const getAllRooms = (latitude, longitude) => {
       isPast: false,
       location: {
         $nearSphere: {
-          $maxDistance: 50000,
+          $maxDistance: 5000,
           $minDistance: 10,
           $geometry: {
             type: "Point",
