@@ -16,7 +16,7 @@ import {
 import { API_PATH } from "../config/keys";
 import { AsyncStorage } from "react-native";
 import axios from "axios";
-
+import ChatRoom from "./components/ChatRoom"
 styles = StyleSheet.create({
   scroller: {
     flex: 1
@@ -27,7 +27,7 @@ export default class IosFonts extends Component {
   constructor() {
     super();
     this.state = {
-      data: null
+      data:[]
     };
   }
   componentDidMount() {
@@ -41,6 +41,7 @@ export default class IosFonts extends Component {
       axios
         .get(`${API_PATH}/room/getRoomList?userId=${userId}`)
         .then(result => {
+          console.log("Chat")
           console.log(result.data);
           this.setState({ data: result.data });
         })
@@ -50,13 +51,22 @@ export default class IosFonts extends Component {
     });
   }
   render() {
+    const list =(
+      <ScrollView>
+      <List>
+        {this.state.data.map((item, i) => {
+          return <ChatRoom key={i} dataList={item} />;
+        })}
+      </List>
+    </ScrollView>
+    )
     return (
-      <ScrollView style={styles.scroller}>
-         <Text>
-            Hello
-          </Text>
-      </ScrollView>
-    );
+      <Container>
+     
+        {this.state.data.length !== 0 ? list : <Spinner color="blue" />}
+      
+    </Container>
+  );
   }
 }
 
