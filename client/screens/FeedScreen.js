@@ -142,7 +142,7 @@ class Feed extends React.Component {
             right: 20
           }}
         >
-          <Text> + </Text>
+          <Text>+</Text>
         </Button>
       </Container>
     );

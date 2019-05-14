@@ -45,7 +45,9 @@ router.post("/create", (req, res) => {
           image_url: place.jsonBody.image_url,
           location: {
             display_address: place.jsonBody.location.display_address
-          }
+          },
+          rating: place.jsonBody.rating,
+          price: place.jsonBody.price
         }
         // latitude: place.jsonBody.coordinates.latitude,
         // longitude: place.jsonBody.coordinates.longitude
