@@ -59,7 +59,9 @@ let RoomSchema = mongoose.Schema({
     image_url: { type: String },
     location: {
       display_address: []
-    }
+    },
+    rating: { type: String },
+    price: { type: String }
   }
 });
 RoomSchema.index({ location: "2dsphere" });
