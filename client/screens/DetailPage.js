@@ -135,9 +135,6 @@ class DetailPage extends Component {
                 </Text>
               </Left>
               <Right>
-                <Button>
-                  <Text>Select </Text>
-                </Button>
               </Right>
             </CardItem>
             <CardItem

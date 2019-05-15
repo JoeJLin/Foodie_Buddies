@@ -94,10 +94,14 @@ class RoomDetailScreen extends Component {
             </CardItem>
             <CardItem  style={{ paddingVertical: 0 }} >
               <Left>
-                <Button transparent>
-                  <Icon name="logo-github" />
-                  <Text>4,923 likes</Text>
-                </Button>
+                  <Text style={{fontFamily:"Chalkboard SE", fontSize:15}}> 
+                  <Icon name="logo-usd" style={{color:'orange', fontSize:20}}/> {' '}
+                  Price: {place.price} 
+                  {'\n'}
+                  {'\n'}
+                <Icon name="ios-star" style={{color:'orange', fontSize:20}}/> {' '}
+                  Rating: {place.rating}
+                  </Text> 
               </Left>
 
             </CardItem>
@@ -135,8 +139,9 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     alignSelf: "flex-start",
     fontSize: 16,
-    fontFamily: "Cochin"
+    fontFamily: "Cochin",
     //fontFamily:"Avenir"
+    paddingLeft:10
   },
   title:{
     fontSize: 16,
