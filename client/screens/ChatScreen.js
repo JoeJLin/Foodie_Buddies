@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { AppRegistry, ScrollView, StyleSheet } from "react-native";
+import { View,AppRegistry, ScrollView, StyleSheet } from "react-native";
 import {
   Container,
   Header,
@@ -11,7 +11,10 @@ import {
   Body,
   Text,
   List,
-  Spinner
+  Spinner,
+  Icon,
+  CardItem,
+  Card
 } from "native-base";
 import { API_PATH } from "../config/keys";
 import { AsyncStorage } from "react-native";
@@ -53,17 +56,38 @@ export default class IosFonts extends Component {
   render() {
     const list =(
       <ScrollView>
-      <List>
+      <List style={{}}>
         {this.state.data.map((item, i) => {
           return <ChatRoom key={i} dataList={item} />;
         })}
       </List>
     </ScrollView>
     )
+  const list2=(
+    <Card>
+      <CardItem>
+      </CardItem>
+      <CardItem style={{alignContent:'center',
+      height:200}}>
+        <Text style={{fontSize:16, fontFamily:"Chalkboard SE"}}>
+        <Icon name="ios-hand" style={{ fontSize: 20, color: "black" }} />
+        {" "}
+        You didn't select any event!!! Go head and join some events
+        </Text>
+      </CardItem>
+    </Card>
+  )
     return (
       <Container>
-     
-        {this.state.data.length !== 0 ? list : <Spinner color="blue" />}
+        <Text style={{
+          alignSelf:'center',
+          paddingTop:60,
+          fontFamily: "Cochin",
+          fontWeight:'bold',
+          fontSize:20}}>
+            Selected Events
+        </Text>
+        {this.state.data.length !== 0 ? list : list2}
       
     </Container>
   );
